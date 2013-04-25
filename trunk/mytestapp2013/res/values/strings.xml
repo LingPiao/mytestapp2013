@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Read from a specified file</string>
+    <string name="about">About</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="category">Category</string>
+    <string name="favorite">Favorite</string>
+    <string name="language">Language</string>
+
+</resources>
