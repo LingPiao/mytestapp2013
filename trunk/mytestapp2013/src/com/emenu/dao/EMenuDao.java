@@ -2,9 +2,8 @@ package com.emenu.dao;
 
 import java.util.List;
 
-import android.view.MenuItem;
-
 import com.emenu.models.Dish;
+import com.emenu.models.MenuItem;
 
 public interface EMenuDao {
 
