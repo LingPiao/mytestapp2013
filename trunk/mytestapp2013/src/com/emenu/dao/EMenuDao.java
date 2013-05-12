@@ -17,10 +17,18 @@ public interface EMenuDao {
 
 	void saveMenu(MenuItem menuItem);
 
+	boolean updateMenu(MenuItem menuItem);
+
 	void saveDish(Dish dish);
 
-	void removeMenu(long menuItemId);
+	boolean updateDish(Dish dish);
 
-	void removeDish(long dishId);
+	boolean removeMenu(List<Long> ids);
+
+	boolean removeDish(List<Long> ids);
+
+	long getMaxId4Menu();
+
+	long getMaxId4Dish();
 
 }
