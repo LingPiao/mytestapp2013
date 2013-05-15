@@ -1,35 +1,53 @@
 package com.emenu.adapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.emenu.R;
+import com.emenu.models.Dish;
 
-public class DishListAdapter extends ArrayAdapter<String> {
-	private final Context context;
-	private final String[] values;
+public class DishListAdapter extends BaseAdapter {
+	private List<Dish> dishes = new ArrayList<Dish>();
+	LayoutInflater inflater = null;
 
-	public DishListAdapter(Context context, String[] values) {
-		super(context, R.layout.dish_row, values);
-		this.context = context;
-		this.values = values;
+	public DishListAdapter(Context context, List<Dish> dishes) {
+		this.dishes = dishes;
+		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		Dish d = dishes.get(position);
 		View rowView = inflater.inflate(R.layout.dish_row, parent, false);
 		TextView desc = (TextView) rowView.findViewById(R.id.desc);
 		TextView price = (TextView) rowView.findViewById(R.id.price);
 		ImageView img = (ImageView) rowView.findViewById(R.id.img);
-		desc.setText(values[position]);
+		desc.setText(d.getName());
 		img.setImageResource(R.drawable.ic_launcher);
-		price.setText("$10.00");
+		price.setText("$" + d.getPrice());
 		return rowView;
+	}
+
+	@Override
+	public int getCount() {
+		return dishes.size();
+	}
+
+	@Override
+	public Object getItem(int posistion) {
+		return dishes.get(posistion);
+	}
+
+	@Override
+	public long getItemId(int posistion) {
+		return dishes.get(posistion).getId();
 	}
 }
