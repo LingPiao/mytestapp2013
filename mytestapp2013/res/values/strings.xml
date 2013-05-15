@@ -7,5 +7,7 @@
     <string name="category">Category</string>
     <string name="favorite">Favorite</string>
     <string name="language">Language</string>
+    <string name="title_activity_dish_detail">DishDetail</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
