@@ -10,6 +10,7 @@ public class Dish {
 	private String file;
 	private boolean enabled;
 	private float price;
+	private String descriptioin;
 
 	public long getId() {
 		return id;
@@ -65,6 +66,14 @@ public class Dish {
 
 	public void setPrice(float price) {
 		this.price = price;
+	}
+
+	public String getDescriptioin() {
+		return descriptioin;
+	}
+
+	public void setDescriptioin(String descriptioin) {
+		this.descriptioin = descriptioin;
 	}
 
 }

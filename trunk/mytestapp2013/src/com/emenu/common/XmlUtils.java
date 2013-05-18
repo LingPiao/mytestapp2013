@@ -1,44 +1,27 @@
 package com.emenu.common;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.emenu.dao.EMenuDao;
-import com.emenu.dao.impl.EMenuDaoImpl;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XmlUtils {
 
-	private final static String DATA = "data/";
+	private final static String DATA = "/emenu/data/";
 	private final static String MAIN_MENU_XML = "/MainMenu.xml";
 	private final static String DISHES_XML = "/Dishes.xml";
+
 	private String appPath = "";
-
-	private long maxId4Menu = 0;
-	// private long maxId4Dish = 0;
-
-	private EMenuDao dao;
-
-	private static Map<String, XmlUtils> cache = new HashMap<String, XmlUtils>();
 	private String language = Languages.en_US.name();
+
 	private static XmlUtils instance = null;
 
 	private XmlUtils() {
 	}
 
-	public static XmlUtils build(String language, String appPath) {
-		XmlUtils xu = cache.get(language);
-		if (xu != null) {
-			instance = xu;
-			return xu;
+	public static void build(String appPath) {
+		if (instance == null) {
+			instance = new XmlUtils();
+			instance.appPath = appPath;
 		}
-		xu = new XmlUtils();
-		xu.language = language;
-		xu.appPath = appPath;
-		instance = xu;
-		xu.dao = new EMenuDaoImpl();
-		xu.maxId4Menu = xu.dao.getMaxId4Menu();
-		cache.put(language, xu);
-		return xu;
 	}
 
 	public static XmlUtils getInstance() {
@@ -61,13 +44,16 @@ public class XmlUtils {
 		return getPath(DISHES_XML);
 	}
 
-	private String getPath(String xml) {
+	public String getPath(String xml) {
 		return appPath + DATA + language + xml;
 	}
 
-	public long getMaxId4Menu() {
-		this.maxId4Menu++;
-		return maxId4Menu;
+	public static List<Long> getIds(String ids) {
+		String[] s = ids.split(",");
+		List<Long> r = new ArrayList<Long>();
+		for (String id : s) {
+			r.add(Long.parseLong(id));
+		}
+		return r;
 	}
-
 }
