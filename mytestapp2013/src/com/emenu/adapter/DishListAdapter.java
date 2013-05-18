@@ -1,9 +1,12 @@
 package com.emenu.adapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +30,17 @@ public class DishListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Dish d = dishes.get(position);
 		View rowView = inflater.inflate(R.layout.dish_row, parent, false);
+		TextView name = (TextView) rowView.findViewById(R.id.dishName);
 		TextView desc = (TextView) rowView.findViewById(R.id.desc);
 		TextView price = (TextView) rowView.findViewById(R.id.price);
 		ImageView img = (ImageView) rowView.findViewById(R.id.img);
-		desc.setText(d.getName());
-		img.setImageResource(R.drawable.ic_launcher);
+
+		File imgf = new File(d.getImage());
+		Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
+
+		name.setText(d.getName());
+		desc.setText(d.getDescriptioin());
+		img.setImageBitmap(dimg);
 		price.setText("$" + d.getPrice());
 		return rowView;
 	}

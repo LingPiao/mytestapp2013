@@ -1,11 +1,9 @@
 package com.emenu.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,18 +13,25 @@ import android.widget.Toast;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
+import com.emenu.common.MLog;
+import com.emenu.common.XmlUtils;
+import com.emenu.dao.EMenuDao;
+import com.emenu.dao.impl.EMenuDaoImpl;
 import com.emenu.models.Dish;
 
 public class DishList extends Activity {
+	private EMenuDao dao = new EMenuDaoImpl();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dish_list);
+		MLog.d("Environment.getExternalStorageDirectory().getPath()=" + Environment.getExternalStorageDirectory().getPath());
+		XmlUtils.build(Environment.getExternalStorageDirectory().getPath());
 
 		final ListView listview = (ListView) findViewById(R.id.dishList);
 
-		final DishListAdapter adapter = new DishListAdapter(this, getDishes());
+		final DishListAdapter adapter = new DishListAdapter(this, dao.loadDishes());
 		listview.setAdapter(adapter);
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,25 +59,6 @@ public class DishList extends Activity {
 		}
 
 		return true;
-	}
-
-	private List<Dish> getDishes() {
-		List<Dish> dishes = new ArrayList<Dish>();
-		Dish ics = new Dish();
-		ics.setId(1);
-		ics.setName("Ice Cream Sandwich");
-		ics.setPrice(8);
-
-		dishes.add(ics);
-
-		Dish ss = new Dish();
-		ss.setId(2);
-		ss.setName("Steak Sandwich");
-		ss.setPrice(10);
-
-		dishes.add(ss);
-
-		return dishes;
 	}
 
 }
