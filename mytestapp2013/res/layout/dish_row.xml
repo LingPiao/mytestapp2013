@@ -14,26 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="35dp"
-        android:text="TextView" />
-
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="220dp"
-        android:layout_height="180dp"
-        android:layout_alignBottom="@+id/price"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="6dp"
-        android:src="@drawable/ic_launcher" />
-
-    <TextView
-        android:id="@+id/dishName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/desc"
-        android:layout_marginLeft="14dp"
-        android:layout_toRightOf="@+id/img"
-        android:text="TextView" />
+        android:layout_marginTop="30dp"
+        android:text="TextView"
+        android:textSize="24dp" />
 
     <TextView
         android:id="@+id/desc"
@@ -41,6 +24,26 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/img"
         android:layout_alignLeft="@+id/dishName"
-        android:text="TextView" />
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="TextView"
+        android:width="500dp" />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/price"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/dishName"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignTop="@+id/img"
+        android:layout_toRightOf="@+id/img"
+        android:text="TextView"
+        android:textSize="22dp" />
 
 </RelativeLayout>

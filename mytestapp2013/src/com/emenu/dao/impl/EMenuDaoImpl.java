@@ -64,7 +64,7 @@ public class EMenuDaoImpl implements EMenuDao {
 						dish = null;
 					}
 				} else if (eventType == XmlPullParser.TEXT) {
-					if ("dish".equalsIgnoreCase(xpp.getName())) {
+					if (dish != null) {
 						dish.setDescriptioin(xpp.getText());
 					}
 				}
@@ -73,10 +73,11 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null) try {
-				in.close();
-			} catch (IOException e) {
-			}
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
 		}
 
 		return l;
@@ -128,10 +129,11 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null) try {
-				in.close();
-			} catch (IOException e) {
-			}
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
 		}
 
 		return l;
