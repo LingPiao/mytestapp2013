@@ -1,19 +1,17 @@
 package com.emenu.activity;
 
+import java.util.List;
+
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.emenu.R;
@@ -43,7 +41,8 @@ public class DishList extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 				final Dish dish = (Dish) parent.getItemAtPosition(position);
-				Toast.makeText(DishList.this, "Dish[id=" + dish.getId() + ",Name=" + dish.getName() + "] selected.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DishList.this, "Dish[id=" + dish.getId() + ",Name=" + dish.getName() + "] selected.",
+						Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -54,32 +53,61 @@ public class DishList extends Activity {
 		return true;
 	}
 
+	private String[] getCategory() {
+		String[] r = new String[0];
+		List<com.emenu.models.MenuItem> mis = dao.loadMenus();
+		if (mis.size() < 1) {
+			return r;
+		}
+		r = new String[mis.size()];
+		int i = 0;
+		for (com.emenu.models.MenuItem mi : mis) {
+			r[i++] = mi.getName();
+		}
+		return r;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == R.id.category) {
 			// startActivity(new Intent(this, DishDetail.class));
-			LinearLayout l1 = new LinearLayout(this);
-			ListView lv = new ListView(this);
-			l1.addView(lv);
-
-			String[] values = new String[10];
-			for (int i = 0; i < 5; i++) {
-				values[i] = "" + i;
-			}
-
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, values);
-			lv.setAdapter(adapter);
-
-			l1.setBackgroundColor(Color.GRAY);
-			PopupWindow pw = new PopupWindow(l1, 100, 300, true);
+			// LinearLayout l1 = new LinearLayout(this);
+			// ListView lv = new ListView(this);
+			// l1.addView(lv);
+			//
+			// String[] values = new String[10];
+			// for (int i = 0; i < 5; i++) {
+			// values[i] = "" + i;
+			// }
+			//
+			// ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+			// android.R.layout.simple_list_item_1, values);
+			// lv.setAdapter(adapter);
+			//
+			// l1.setBackgroundColor(Color.GRAY);
+			// PopupWindow pw = new PopupWindow(l1, 100, 300, true);
+			// //
 			// pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.pop_bg));
-			pw.setTouchable(true);
-			pw.setOutsideTouchable(true);
-			pw.setBackgroundDrawable(new BitmapDrawable());
-			// pw.showAtLocation(getWindow().getDecorView(), Gravity.NO_GRAVITY,
-			// 30, 30);
-			pw.showAtLocation(this.findViewById(R.id.category), Gravity.LEFT | Gravity.BOTTOM, 10, 10);
+			// pw.setTouchable(true);
+			// pw.setOutsideTouchable(true);
+			// pw.setBackgroundDrawable(new BitmapDrawable());
+			// // pw.showAtLocation(getWindow().getDecorView(),
+			// Gravity.NO_GRAVITY,
+			// // 30, 30);
+			// pw.showAtLocation(this.findViewById(R.id.category), Gravity.LEFT
+			// | Gravity.BOTTOM, 10, 10);
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Chose a category");
+			builder.setSingleChoiceItems(getCategory(), 0, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					dialog.dismiss();
+					Toast.makeText(DishList.this, item + " selected", Toast.LENGTH_SHORT).show();
+				}
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
 
 		} else {
 			return super.onOptionsItemSelected(item);
