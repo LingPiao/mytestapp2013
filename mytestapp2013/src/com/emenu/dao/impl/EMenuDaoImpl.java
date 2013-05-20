@@ -19,8 +19,48 @@ public class EMenuDaoImpl implements EMenuDao {
 
 	@Override
 	public List<MenuItem> loadMenus() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MenuItem> l = new ArrayList<MenuItem>();
+		InputStream in = null;
+		try {
+			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			XmlPullParser xpp = factory.newPullParser();
+			in = new FileInputStream(XmlUtils.getInstance().getMainMenuXml());
+			xpp.setInput(in, "utf-8");
+			int eventType = xpp.getEventType();
+			MenuItem menu = new MenuItem();
+			while (eventType != XmlPullParser.END_DOCUMENT) {
+				if (eventType == XmlPullParser.START_DOCUMENT) {
+					// System.out.println("Start document");
+				} else if (eventType == XmlPullParser.START_TAG) {
+					if ("MenuItem".equalsIgnoreCase(xpp.getName())) {
+						menu = new MenuItem();
+						menu.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
+						menu.setName(xpp.getAttributeValue(null, "name"));
+					}
+					// System.out.println("Start tag " + xpp.getName());
+				} else if (eventType == XmlPullParser.END_TAG) {
+					// System.out.println("End tag " + xpp.getName());
+					if ("MenuItem".equalsIgnoreCase(xpp.getName()) && menu != null) {
+						l.add(menu);
+						menu = null;
+					}
+				} else if (eventType == XmlPullParser.TEXT) {
+					// Nothing to do here
+				}
+				eventType = xpp.next();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
+		}
+
+		return l;
 	}
 
 	@Override
