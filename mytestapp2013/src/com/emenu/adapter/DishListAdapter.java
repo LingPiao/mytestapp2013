@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.emenu.R;
+import com.emenu.common.MLog;
 import com.emenu.models.Dish;
 
 public class DishListAdapter extends BaseAdapter {
@@ -37,7 +38,7 @@ public class DishListAdapter extends BaseAdapter {
 
 		File imgf = new File(d.getImage());
 		Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
-
+		MLog.d("==============Width:" + dimg.getWidth() + ",height:" + dimg.getHeight());
 		name.setText(d.getName());
 		desc.setText(d.getDescriptioin());
 		img.setImageBitmap(dimg);
