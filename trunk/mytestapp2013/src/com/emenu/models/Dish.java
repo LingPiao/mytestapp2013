@@ -10,7 +10,7 @@ public class Dish {
 	private String file;
 	private boolean enabled;
 	private float price;
-	private String intorduction;
+	private String introduction;
 
 	public long getId() {
 		return id;
@@ -68,12 +68,12 @@ public class Dish {
 		this.price = price;
 	}
 
-	public String getIntorduction() {
-		return intorduction;
+	public String getIntroduction() {
+		return introduction;
 	}
 
-	public void setIntorduction(String intorduction) {
-		this.intorduction = intorduction;
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
 	}
 
 }
