@@ -4,6 +4,10 @@ public class MenuItem {
 	private long id;
 	private String name;
 
+	public MenuItem() {
+
+	}
+
 	public MenuItem(long id, String name) {
 		this.id = id;
 		this.name = name;
