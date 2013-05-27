@@ -36,4 +36,18 @@ public class FileUtil {
 		return title;
 	}
 
+	public static String isDataReady() {
+		String errorMsg = null;
+		boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+		if (!sdCardExist) {
+			return "No SDCard found!";
+		}
+		File data = new File(Environment.getExternalStorageDirectory().getPath() + Constants.DATA);
+		if (!data.exists()) {
+			return "The data is NOT ready! Copy the data to " + Environment.getExternalStorageDirectory().getPath() + Constants.DATA
+					+ " before starting the app";
+		}
+		return errorMsg;
+
+	}
 }
