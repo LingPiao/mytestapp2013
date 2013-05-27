@@ -46,14 +46,16 @@ public class DishList extends Activity {
 
 		final ListView listview = (ListView) findViewById(R.id.dishList);
 		List<Dish> dishes = null;
-		String selectedMenu = getIntent().getExtras().getString(Constants.SELECTED_MENU_ITEM_KEY);
-		if (selectedMenu != null && selectedMenu.trim().length() > 0) {
-			long id = Long.parseLong(selectedMenu);
-			if (id > 0) {
-				dishes = dao.loadDishes(id);
-			} else {
-				dishes = dao.loadDishes();
+		String selectedMenu = "-1";
+		if (getIntent() != null && getIntent().getExtras() != null) {
+			selectedMenu = getIntent().getExtras().getString(Constants.SELECTED_MENU_ITEM_KEY);
+			if (selectedMenu == null) {
+				selectedMenu = "-1";
 			}
+		}
+		long id = Long.parseLong(selectedMenu);
+		if (id > 0) {
+			dishes = dao.loadDishes(id);
 		} else {
 			dishes = dao.loadDishes();
 		}
