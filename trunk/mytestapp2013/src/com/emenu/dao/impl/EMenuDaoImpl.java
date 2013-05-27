@@ -105,7 +105,7 @@ public class EMenuDaoImpl implements EMenuDao {
 					}
 				} else if (eventType == XmlPullParser.TEXT) {
 					if (dish != null) {
-						dish.setDescriptioin(xpp.getText());
+						dish.setDescription(xpp.getText());
 					}
 				}
 				eventType = xpp.next();
@@ -161,7 +161,7 @@ public class EMenuDaoImpl implements EMenuDao {
 					}
 				} else if (eventType == XmlPullParser.TEXT) {
 					if ("dish".equalsIgnoreCase(xpp.getName())) {
-						dish.setDescriptioin(xpp.getText());
+						dish.setDescription(xpp.getText());
 					}
 				}
 				eventType = xpp.next();

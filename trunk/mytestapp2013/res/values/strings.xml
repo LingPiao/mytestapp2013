@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Read from a specified file</string>
+    <string name="app_name">eMenu</string>
     <string name="about">About</string>
     <string name="hello_world">Hello world!</string>
     <string name="category">Category</string>

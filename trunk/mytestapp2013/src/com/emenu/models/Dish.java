@@ -1,8 +1,11 @@
 package com.emenu.models;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Dish {
+public class Dish implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
 	private List<Long> belongsTo;

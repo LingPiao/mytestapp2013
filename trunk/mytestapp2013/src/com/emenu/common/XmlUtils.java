@@ -1,13 +1,13 @@
 package com.emenu.common;
 
+import static com.emenu.common.Constants.DATA;
+import static com.emenu.common.Constants.DISHES_XML;
+import static com.emenu.common.Constants.MAIN_MENU_XML;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class XmlUtils {
-
-	private final static String DATA = "/emenu/data/";
-	private final static String MAIN_MENU_XML = "/MainMenu.xml";
-	private final static String DISHES_XML = "/Dishes.xml";
 
 	private String appPath = "";
 	private String language = Languages.en_US.name();
@@ -44,8 +44,8 @@ public class XmlUtils {
 		return getPath(DISHES_XML);
 	}
 
-	public String getPath(String xml) {
-		return appPath + DATA + language + xml;
+	public String getPath(String file) {
+		return appPath + DATA + language + file;
 	}
 
 	public static List<Long> getIds(String ids) {
