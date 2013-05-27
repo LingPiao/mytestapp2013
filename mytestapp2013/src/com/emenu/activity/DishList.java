@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
@@ -33,36 +32,24 @@ public class DishList extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dish_list);
-		setTitle("Loading...");
-		String title = FileUtil.loadTitle();
-		MLog.d("Loaded tile=" + title);
-		if (title == null) {
-			Toast.makeText(DishList.this, "Load title file[" + Constants.TITLE_FILE + "] error!", Toast.LENGTH_SHORT).show();
-			return;
-		}
-		setTitle(title);
 
-		XmlUtils.build(Environment.getExternalStorageDirectory().getPath());
+		checkEnv();
 
-		final ListView listview = (ListView) findViewById(R.id.dishList);
 		List<Dish> dishes = null;
-		String selectedMenu = "-1";
+		long selectedId = 0;
 		if (getIntent() != null && getIntent().getExtras() != null) {
-			selectedMenu = getIntent().getExtras().getString(Constants.SELECTED_MENU_ITEM_KEY);
-			if (selectedMenu == null) {
-				selectedMenu = "-1";
-			}
+			selectedId = getIntent().getExtras().getLong(Constants.SELECTED_MENU_ITEM_KEY);
+			MLog.d("GetExtra data[selectedId=" + selectedId + "]");
 		}
-		long id = Long.parseLong(selectedMenu);
-		if (id > 0) {
-			dishes = dao.loadDishes(id);
+		if (selectedId > 0) {
+			dishes = dao.loadDishes(selectedId);
 		} else {
 			dishes = dao.loadDishes();
 		}
 
 		final DishListAdapter adapter = new DishListAdapter(this, dishes);
+		final ListView listview = (ListView) findViewById(R.id.dishList);
 		listview.setAdapter(adapter);
-
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
@@ -78,6 +65,64 @@ public class DishList extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == R.id.category) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Chose a category");
+			builder.setSingleChoiceItems(getCategory(), 0, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					dialog.dismiss();
+					Intent intent = new Intent(DishList.this, DishList.class);
+					long selecedId = getSelectedCategoryId(item);
+					MLog.d("PutExtra data[selectedId=" + selecedId + "]");
+					intent.putExtra(Constants.SELECTED_MENU_ITEM_KEY, selecedId);
+					startActivity(intent);
+				}
+			});
+			builder.create().show();
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
+
+		return true;
+	}
+
+	private void checkEnv() {
+		setTitle("Loading...");
+		String title = FileUtil.loadTitle();
+		String appPath = Environment.getExternalStorageDirectory().getPath();
+		MLog.d("Loaded tile:" + title);
+		if (title == null) {
+			msgbox("Loading title error,check " + appPath + Constants.TITLE_FILE, true);
+			// finish();
+			return;
+		}
+		setTitle(title);
+
+		MLog.d("Checking data...");
+		String chkDataMsg = FileUtil.isDataReady();
+		if (chkDataMsg != null) {
+			msgbox(chkDataMsg, true);
+			// finish();
+			return;
+		}
+		MLog.d("Checking data passed.");
+
+		XmlUtils.build(appPath);
+	}
+
+	private void msgbox(String msg, final boolean exitRequired) {
+		new AlertDialog.Builder(this).setTitle("Information").setMessage(msg).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				if (exitRequired) {
+					finish();
+				}
+			}
+		}).show();
 	}
 
 	private String[] getCategory() {
@@ -97,7 +142,7 @@ public class DishList extends Activity {
 	private long getSelectedCategoryId(int index) {
 		List<com.emenu.models.MenuItem> mis = dao.loadMenus();
 		if (mis.size() < 1) {
-			return -1;
+			return 0;
 		}
 		int i = 0;
 		for (com.emenu.models.MenuItem mi : mis) {
@@ -105,59 +150,6 @@ public class DishList extends Activity {
 				return mi.getId();
 			}
 		}
-		return -1;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.category) {
-			// startActivity(new Intent(this, DishDetail.class));
-			// LinearLayout l1 = new LinearLayout(this);
-			// ListView lv = new ListView(this);
-			// l1.addView(lv);
-			//
-			// String[] values = new String[10];
-			// for (int i = 0; i < 5; i++) {
-			// values[i] = "" + i;
-			// }
-			//
-			// ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-			// android.R.layout.simple_list_item_1, values);
-			// lv.setAdapter(adapter);
-			//
-			// l1.setBackgroundColor(Color.GRAY);
-			// PopupWindow pw = new PopupWindow(l1, 100, 300, true);
-			// //
-			// pw.setBackgroundDrawable(getResources().getDrawable(R.drawable.pop_bg));
-			// pw.setTouchable(true);
-			// pw.setOutsideTouchable(true);
-			// pw.setBackgroundDrawable(new BitmapDrawable());
-			// // pw.showAtLocation(getWindow().getDecorView(),
-			// Gravity.NO_GRAVITY,
-			// // 30, 30);
-			// pw.showAtLocation(this.findViewById(R.id.category), Gravity.LEFT
-			// | Gravity.BOTTOM, 10, 10);
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Chose a category");
-			builder.setSingleChoiceItems(getCategory(), 0, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int item) {
-					dialog.dismiss();
-					Intent intent = new Intent(DishList.this, DishList.class);
-					intent.putExtra(Constants.SELECTED_MENU_ITEM_KEY, getSelectedCategoryId(item));
-					startActivity(intent);
-					// Toast.makeText(DishList.this, item + " selected",
-					// Toast.LENGTH_SHORT).show();
-				}
-			});
-			AlertDialog alert = builder.create();
-			alert.show();
-
-		} else {
-			return super.onOptionsItemSelected(item);
-		}
-
-		return true;
+		return 0;
 	}
 }
