@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
+import com.emenu.common.Constants;
+import com.emenu.common.FileUtil;
 import com.emenu.common.MLog;
 import com.emenu.common.XmlUtils;
 import com.emenu.dao.EMenuDao;
@@ -27,22 +30,44 @@ public class DishList extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dish_list);
-		MLog.d("Environment.getExternalStorageDirectory().getPath()=" + Environment.getExternalStorageDirectory().getPath());
+		setTitle("Loading...");
+		String title = FileUtil.loadTitle();
+		MLog.d("Loaded tile=" + title);
+		if (title == null) {
+			Toast.makeText(DishList.this, "Load title file[" + Constants.TITLE_FILE + "] error!", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		setTitle(title);
+
 		XmlUtils.build(Environment.getExternalStorageDirectory().getPath());
 
 		final ListView listview = (ListView) findViewById(R.id.dishList);
+		List<Dish> dishes = null;
+		String selectedMenu = getIntent().getExtras().getString(Constants.SELECTED_MENU_ITEM_KEY);
+		if (selectedMenu != null && selectedMenu.trim().length() > 0) {
+			long id = Long.parseLong(selectedMenu);
+			if (id > 0) {
+				dishes = dao.loadDishes(id);
+			} else {
+				dishes = dao.loadDishes();
+			}
+		} else {
+			dishes = dao.loadDishes();
+		}
 
-		final DishListAdapter adapter = new DishListAdapter(this, dao.loadDishes());
+		final DishListAdapter adapter = new DishListAdapter(this, dishes);
 		listview.setAdapter(adapter);
 
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 				final Dish dish = (Dish) parent.getItemAtPosition(position);
-				Toast.makeText(DishList.this, "Dish[id=" + dish.getId() + ",Name=" + dish.getName() + "] selected.",
-						Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(DishList.this, DishDetail.class);
+				intent.putExtra(Constants.DISH_KEY, dish);
+				startActivity(intent);
 			}
 		});
 	}
@@ -65,6 +90,20 @@ public class DishList extends Activity {
 			r[i++] = mi.getName();
 		}
 		return r;
+	}
+
+	private long getSelectedCategoryId(int index) {
+		List<com.emenu.models.MenuItem> mis = dao.loadMenus();
+		if (mis.size() < 1) {
+			return -1;
+		}
+		int i = 0;
+		for (com.emenu.models.MenuItem mi : mis) {
+			if (index == i++) {
+				return mi.getId();
+			}
+		}
+		return -1;
 	}
 
 	@Override
@@ -103,7 +142,11 @@ public class DishList extends Activity {
 			builder.setSingleChoiceItems(getCategory(), 0, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int item) {
 					dialog.dismiss();
-					Toast.makeText(DishList.this, item + " selected", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(DishList.this, DishList.class);
+					intent.putExtra(Constants.SELECTED_MENU_ITEM_KEY, getSelectedCategoryId(item));
+					startActivity(intent);
+					// Toast.makeText(DishList.this, item + " selected",
+					// Toast.LENGTH_SHORT).show();
 				}
 			});
 			AlertDialog alert = builder.create();

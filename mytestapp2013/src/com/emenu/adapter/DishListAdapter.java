@@ -40,9 +40,9 @@ public class DishListAdapter extends BaseAdapter {
 		Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
 		MLog.d("==============Width:" + dimg.getWidth() + ",height:" + dimg.getHeight());
 		name.setText(d.getName());
-		desc.setText(d.getDescriptioin());
+		desc.setText(d.getDescription());
 		img.setImageBitmap(dimg);
-		price.setText("$" + d.getPrice());
+		price.setText("kr" + d.getPrice());
 		return rowView;
 	}
 
