@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.emenu.R;
 import com.emenu.common.MLog;
+import com.emenu.common.Utils;
 import com.emenu.models.Dish;
 
 public class DishListAdapter extends BaseAdapter {
@@ -37,12 +38,17 @@ public class DishListAdapter extends BaseAdapter {
 		ImageView img = (ImageView) rowView.findViewById(R.id.img);
 
 		File imgf = new File(d.getImage());
-		Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
-		MLog.d("==============Width:" + dimg.getWidth() + ",height:" + dimg.getHeight());
+		MLog.d("==============ImageFile=" + d.getImage() + ",absPath=" + imgf.getPath() + ",exists=" + imgf.exists());
+		if (imgf.exists()) {
+			Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
+			img.setImageBitmap(dimg);
+		} else {
+			img.setImageResource(R.drawable.default_images);
+		}
+
 		name.setText(d.getName());
-		desc.setText(d.getDescription());
-		img.setImageBitmap(dimg);
-		price.setText("kr" + d.getPrice());
+		desc.setText(d.getIntroduction());
+		price.setText(Utils.formatPrice(d.getPrice()));
 		return rowView;
 	}
 

@@ -88,4 +88,11 @@ public class Dish implements Serializable {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		return "Dish [id=" + id + ", name=" + name + ", belongsTo=" + belongsTo + ", image=" + image + ", file=" + file
+				+ ", enabled=" + enabled + ", price=" + price + ", introduction=" + introduction + ", description="
+				+ description + "]";
+	}
+
 }

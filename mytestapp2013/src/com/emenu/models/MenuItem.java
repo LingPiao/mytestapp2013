@@ -1,11 +1,15 @@
 package com.emenu.models;
 
-public class MenuItem {
+import java.io.Serializable;
+
+public class MenuItem implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
 
 	public MenuItem() {
-
+		this.id = 0;
 	}
 
 	public MenuItem(long id, String name) {

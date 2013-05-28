@@ -90,7 +90,6 @@ public class EMenuDaoImpl implements EMenuDao {
 						dish.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 						dish.setName(xpp.getAttributeValue(null, "name"));
 						dish.setBelongsTo(XmlUtils.getIds(xpp.getAttributeValue(null, "belongsTo")));
-						MLog.d("=========" + XmlUtils.getInstance().getPath("/" + xpp.getAttributeValue(null, "image")));
 						dish.setImage(XmlUtils.getInstance().getPath("/" + xpp.getAttributeValue(null, "image")));
 						dish.setFile(xpp.getAttributeValue(null, "file"));
 						dish.setEnabled("true".equalsIgnoreCase(xpp.getAttributeValue(null, "enabled")) ? true : false);
@@ -105,7 +104,7 @@ public class EMenuDaoImpl implements EMenuDao {
 					}
 				} else if (eventType == XmlPullParser.TEXT) {
 					if (dish != null) {
-						dish.setDescription(xpp.getText());
+						dish.setIntroduction(xpp.getText());
 					}
 				}
 				eventType = xpp.next();
@@ -135,33 +134,38 @@ public class EMenuDaoImpl implements EMenuDao {
 			xpp.setInput(in, "utf-8");
 			int eventType = xpp.getEventType();
 			Dish dish = null;
+			boolean r = false;
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				if (eventType == XmlPullParser.START_DOCUMENT) {
 					// System.out.println("Start document");
 				} else if (eventType == XmlPullParser.START_TAG) {
 					if ("dish".equalsIgnoreCase(xpp.getName())) {
 						List<Long> belongsTo = XmlUtils.getIds(xpp.getAttributeValue(null, "belongsTo"));
-						if (belongsTo.contains(menuItemId)) {
+						r = belongsTo.contains(menuItemId);
+						MLog.d(" belongsTo.contains(menuItemId) =" + r + ",menuItemId=" + menuItemId);
+						if (r) {
 							dish = new Dish();
 							dish.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 							dish.setName(xpp.getAttributeValue(null, "name"));
 							dish.setBelongsTo(belongsTo);
-							dish.setImage(xpp.getAttributeValue(null, "image"));
+							dish.setImage(XmlUtils.getInstance().getPath("/" + xpp.getAttributeValue(null, "image")));
 							dish.setFile(xpp.getAttributeValue(null, "file"));
 							dish.setEnabled("true".equalsIgnoreCase(xpp.getAttributeValue(null, "enabled")) ? true : false);
 							dish.setPrice(Float.parseFloat(xpp.getAttributeValue(null, "price")));
+							MLog.d("Loaded Dish is:" + dish);
 						}
 					}
 					// System.out.println("Start tag " + xpp.getName());
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// System.out.println("End tag " + xpp.getName());
-					if ("dish".equalsIgnoreCase(xpp.getName()) && dish != null) {
+					if ("dish".equalsIgnoreCase(xpp.getName()) && dish != null && r) {
 						l.add(dish);
 						dish = null;
+						r = false;
 					}
 				} else if (eventType == XmlPullParser.TEXT) {
-					if ("dish".equalsIgnoreCase(xpp.getName())) {
-						dish.setDescription(xpp.getText());
+					if (dish != null) {
+						dish.setIntroduction(xpp.getText());
 					}
 				}
 				eventType = xpp.next();

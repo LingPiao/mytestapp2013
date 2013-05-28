@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 import android.os.Environment;
 
-public class FileUtil {
+public class Utils {
 
 	public static String loadTitle() {
 		String title = null;
@@ -44,10 +44,14 @@ public class FileUtil {
 		}
 		File data = new File(Environment.getExternalStorageDirectory().getPath() + Constants.DATA);
 		if (!data.exists()) {
-			return "The data is NOT ready! Copy the data to " + Environment.getExternalStorageDirectory().getPath() + Constants.DATA
-					+ " before starting the app";
+			return "The data is NOT ready! Copy the data to " + Environment.getExternalStorageDirectory().getPath()
+					+ Constants.DATA + " before starting the app";
 		}
 		return errorMsg;
 
+	}
+
+	public static String formatPrice(float price) {
+		return Constants.DEFAULT_CURRENCY_UNIT + price;
 	}
 }
