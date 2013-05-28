@@ -29,6 +29,10 @@
             android:name="com.emenu.activity.DishDetail"
             android:label="@string/title_activity_dish_detail" >
         </activity>
+        <activity
+            android:name="com.emenu.activity.BaseActivity"
+            android:label="" >
+        </activity>
     </application>
 
 </manifest>

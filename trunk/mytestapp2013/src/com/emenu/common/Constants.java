@@ -10,4 +10,6 @@ public class Constants {
 	public static final String DISH_KEY = "dish_key";
 	public static final String SELECTED_MENU_ITEM_KEY = "selected_menu_item_key";
 
+	public static final String DEFAULT_CURRENCY_UNIT = "kr";
+
 }

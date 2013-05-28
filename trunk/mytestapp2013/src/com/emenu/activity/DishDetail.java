@@ -1,10 +1,10 @@
 package com.emenu.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.VideoView;
@@ -14,7 +14,7 @@ import com.emenu.common.Constants;
 import com.emenu.common.XmlUtils;
 import com.emenu.models.Dish;
 
-public class DishDetail extends Activity {
+public class DishDetail extends BaseActivity {
 
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -23,6 +23,9 @@ public class DishDetail extends Activity {
 		setContentView(R.layout.dish_detail);
 
 		Dish dish = (Dish) getIntent().getSerializableExtra(Constants.DISH_KEY);
+
+		setTitle(dish.getName());
+
 		// Toast.makeText(this, "Dish[id=" + dish.getId() + ",Name=" +
 		// dish.getName() + "] selected.", Toast.LENGTH_SHORT).show();
 		String url = "file://" + XmlUtils.getInstance().getPath("/" + dish.getFile());
@@ -31,8 +34,7 @@ public class DishDetail extends Activity {
 		mWebView.setWebChromeClient(new MyWebChromeClient());
 		// mWebView.setWebViewClient(new MyWebViewClient());
 		mWebView.getSettings().setJavaScriptEnabled(true);
-		// mWebView.getSettings().setPluginState(PluginState.ON);
-		mWebView.getSettings().setPluginsEnabled(true);
+		mWebView.getSettings().setPluginState(PluginState.ON);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.getSettings().setUseWideViewPort(true);
 		mWebView.loadUrl(url);

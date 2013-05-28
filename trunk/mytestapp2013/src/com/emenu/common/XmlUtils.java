@@ -33,7 +33,7 @@ public class XmlUtils {
 	}
 
 	public void setLanguage(String language) {
-		this.language = language;
+		instance.language = language;
 	}
 
 	public String getMainMenuXml() {
