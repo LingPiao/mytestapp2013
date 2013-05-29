@@ -49,6 +49,7 @@ public class BaseActivity extends Activity {
 					MLog.d("PutExtra data[selectedId=" + selectedMi.getId() + "]");
 					intent.putExtra(Constants.SELECTED_MENU_ITEM_KEY, selectedMi);
 					startActivity(intent);
+					finish();
 				}
 			});
 			builder.create().show();
