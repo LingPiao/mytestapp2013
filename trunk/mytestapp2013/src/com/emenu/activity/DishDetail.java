@@ -3,14 +3,19 @@ package com.emenu.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.emenu.R;
 import com.emenu.common.Constants;
+import com.emenu.common.Order;
 import com.emenu.common.XmlUtils;
 import com.emenu.models.Dish;
 
@@ -22,7 +27,7 @@ public class DishDetail extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dish_detail);
 
-		Dish dish = (Dish) getIntent().getSerializableExtra(Constants.DISH_KEY);
+		final Dish dish = (Dish) getIntent().getSerializableExtra(Constants.DISH_KEY);
 
 		setTitle(dish.getName());
 
@@ -39,6 +44,26 @@ public class DishDetail extends BaseActivity {
 		mWebView.getSettings().setUseWideViewPort(true);
 		mWebView.loadUrl(url);
 
+		final EditText amount = (EditText) findViewById(R.id.amount);
+		if (amount.getText() == null || amount.getText().length() < 1) {
+			amount.setText("1");
+		} else {
+			int a = Integer.parseInt(amount.getText().toString());
+			if (a < 0) {
+				amount.setText("1");
+			} else if (a > 1000) {
+				amount.setText("1000");
+			}
+		}
+
+		Button add = (Button) findViewById(R.id.btnAdd);
+		add.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Order.getInstance().add(dish, Integer.parseInt(amount.getText().toString()));
+				Toast.makeText(DishDetail.this, dish.getName() + " added to Favorite list", Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	public class MyWebChromeClient extends WebChromeClient {

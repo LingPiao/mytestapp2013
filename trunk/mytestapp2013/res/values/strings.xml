@@ -9,5 +9,6 @@
     <string name="language">Language</string>
     <string name="title_activity_dish_detail">DishDetail</string>
     <string name="action_settings">Settings</string>
+    <string name="btnAdd">Add</string>
 
 </resources>
