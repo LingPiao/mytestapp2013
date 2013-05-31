@@ -53,6 +53,10 @@ public class BaseActivity extends Activity {
 				}
 			});
 			builder.create().show();
+		} else if (id == R.id.favorite) {
+			Intent intent = new Intent(BaseActivity.this, FavoriteList.class);
+			startActivity(intent);
+			finish();
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
