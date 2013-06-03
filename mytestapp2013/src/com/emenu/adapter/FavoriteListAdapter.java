@@ -36,10 +36,10 @@ public class FavoriteListAdapter extends BaseAdapter {
 		TextView am = (TextView) rowView.findViewById(R.id.favorite_row_amount);
 		TextView sm = (TextView) rowView.findViewById(R.id.favorite_row_sum);
 
-		//sn.setText(position + 1);
+		sn.setText(String.valueOf(position + 1));
 		dn.setText(dish.getName());
 		pr.setText(String.valueOf(dish.getPrice()));
-		//am.setText(oi.getAmount());
+		am.setText(String.valueOf(oi.getAmount()));
 		sm.setText(String.valueOf(oi.getAmount() * dish.getPrice()));
 
 		return rowView;

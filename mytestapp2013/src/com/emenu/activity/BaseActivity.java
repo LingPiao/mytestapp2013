@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.emenu.R;
 import com.emenu.common.Constants;
+import com.emenu.common.Languages;
 import com.emenu.common.MLog;
 import com.emenu.common.Utils;
 import com.emenu.common.XmlUtils;
@@ -52,11 +53,37 @@ public class BaseActivity extends Activity {
 					finish();
 				}
 			});
+			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
 			builder.create().show();
 		} else if (id == R.id.favorite) {
 			Intent intent = new Intent(BaseActivity.this, FavoriteList.class);
 			startActivity(intent);
 			finish();
+		} else if (id == R.id.language) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Chose your language");
+			builder.setSingleChoiceItems(getLanguages(), Languages.en_US.ordinal(), new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					dialog.dismiss();
+					Intent intent = new Intent(BaseActivity.this, DishList.class);
+					String lan = Languages.valueOf(item).name();
+					MLog.d("PutExtra data[selectedLanguage=" + lan + "]");
+					intent.putExtra(Constants.SELECTED_LANGUAGE_KEY, lan);
+					startActivity(intent);
+					finish();
+				}
+			});
+			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			builder.create().show();
+
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
@@ -76,6 +103,11 @@ public class BaseActivity extends Activity {
 		}
 		setTitle(title);
 
+		XmlUtils.build(appPath);
+		// Set Language
+		String lan = getIntent().getExtras().getString(Constants.SELECTED_LANGUAGE_KEY);
+		XmlUtils.getInstance().setLanguage(lan);
+
 		MLog.d("Checking data...");
 		String chkDataMsg = Utils.isDataReady();
 		if (chkDataMsg != null) {
@@ -85,7 +117,6 @@ public class BaseActivity extends Activity {
 		}
 		MLog.d("Checking data passed.");
 
-		XmlUtils.build(appPath);
 	}
 
 	protected void msgbox(String msg) {
@@ -93,14 +124,13 @@ public class BaseActivity extends Activity {
 	}
 
 	private void msgbox(String msg, final boolean exitRequired) {
-		new AlertDialog.Builder(this).setTitle("Information").setMessage(msg)
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						if (exitRequired) {
-							finish();
-						}
-					}
-				}).show();
+		new AlertDialog.Builder(this).setTitle("Information").setMessage(msg).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				if (exitRequired) {
+					finish();
+				}
+			}
+		}).show();
 	}
 
 	protected String[] getCategory() {
@@ -114,6 +144,16 @@ public class BaseActivity extends Activity {
 		r[0] = "All";
 		for (com.emenu.models.MenuItem mi : mis) {
 			r[i++] = mi.getName();
+		}
+		return r;
+	}
+
+	protected String[] getLanguages() {
+		String[] r = new String[0];
+		Languages[] lans = Languages.values();
+		r = new String[lans.length];
+		for (int i = 0; i < lans.length; i++) {
+			r[i++] = lans[i].name();
 		}
 		return r;
 	}
