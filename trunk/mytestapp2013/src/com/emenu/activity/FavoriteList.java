@@ -1,6 +1,7 @@
 package com.emenu.activity;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,6 +21,7 @@ public class FavoriteList extends BaseActivity {
 		final FavoriteListAdapter adapter = new FavoriteListAdapter(this);
 		final ListView listview = (ListView) findViewById(R.id.favoriteList);
 		listview.setAdapter(adapter);
+		listview.addHeaderView(LayoutInflater.from(this).inflate(R.layout.favorite_list_header, null));
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {

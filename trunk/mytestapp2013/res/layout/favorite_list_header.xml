@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="3" >
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/hd_sn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/favorite_hd_sn" />
+
+            <TextView
+                android:id="@+id/hd_dishName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/favorite_hd_dishName" />
+
+            <TextView
+                android:id="@+id/hd_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/favorite_hd_price" />
+
+            <TextView
+                android:id="@+id/hd_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/favorite_hd_amount" />
+
+            <TextView
+                android:id="@+id/hd_sum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/favorite_hd_sum" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
