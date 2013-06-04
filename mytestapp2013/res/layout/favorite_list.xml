@@ -7,7 +7,7 @@
     <ListView
         android:id="@+id/favoriteList"
         android:layout_width="wrap_content"
-        android:layout_height="150dp" >
+        android:layout_height="wrap_content" >
     </ListView>
 
     <TextView
@@ -16,37 +16,31 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/favoriteList"
-        android:layout_marginLeft="94dp"
-        android:layout_marginTop="122dp"
+        android:layout_marginLeft="50dp"
         android:text="Total" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/txtTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/lblTotalPrice"
         android:layout_alignBottom="@+id/lblTotalPrice"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/button1"
-        style="?android:attr/buttonStyleSmall"
+        android:id="@+id/btnCancle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="62dp"
-        android:text="Button" />
+        android:layout_alignLeft="@+id/txtTotalPrice"
+        android:layout_below="@+id/txtTotalPrice"
+        android:layout_marginLeft="10dp"
+        android:text="@string/btnCancle" />
 
     <Button
-        android:id="@+id/button2"
-        style="?android:attr/buttonStyleSmall"
+        android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/button1"
-        android:text="Button" />
+        android:layout_toLeftOf="@+id/btnCancle"
+        android:text="@string/btnSubmit" />
 
 </RelativeLayout>

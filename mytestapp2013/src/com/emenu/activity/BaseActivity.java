@@ -23,6 +23,7 @@ import com.emenu.dao.impl.EMenuDaoImpl;
 public class BaseActivity extends Activity {
 	protected EMenuDao dao = new EMenuDaoImpl();
 	protected long selectedId = 0;
+	protected int selectedLanguage = Languages.en_US.ordinal();
 	protected String selectedCategory = "All";
 
 	@Override
@@ -66,13 +67,13 @@ public class BaseActivity extends Activity {
 		} else if (id == R.id.language) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Chose your language");
-			builder.setSingleChoiceItems(getLanguages(), Languages.en_US.ordinal(), new DialogInterface.OnClickListener() {
+			builder.setSingleChoiceItems(getLanguages(), selectedLanguage, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int item) {
 					dialog.dismiss();
 					Intent intent = new Intent(BaseActivity.this, DishList.class);
 					String lan = Languages.valueOf(item).name();
 					MLog.d("PutExtra data[selectedLanguage=" + lan + "]");
-					intent.putExtra(Constants.SELECTED_LANGUAGE_KEY, lan);
+					intent.putExtra(Constants.SELECTED_LANGUAGE_KEY, item);
 					startActivity(intent);
 					finish();
 				}
@@ -105,8 +106,12 @@ public class BaseActivity extends Activity {
 
 		XmlUtils.build(appPath);
 		// Set Language
-		String lan = getIntent().getExtras().getString(Constants.SELECTED_LANGUAGE_KEY);
-		XmlUtils.getInstance().setLanguage(lan);
+		Bundle b = getIntent().getExtras();
+		if (b != null) {
+			int lanIndex = b.getInt(Constants.SELECTED_LANGUAGE_KEY);
+			selectedLanguage = lanIndex;
+			XmlUtils.getInstance().setLanguage(Languages.valueOf(lanIndex).name());
+		}
 
 		MLog.d("Checking data...");
 		String chkDataMsg = Utils.isDataReady();
@@ -124,13 +129,14 @@ public class BaseActivity extends Activity {
 	}
 
 	private void msgbox(String msg, final boolean exitRequired) {
-		new AlertDialog.Builder(this).setTitle("Information").setMessage(msg).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				if (exitRequired) {
-					finish();
-				}
-			}
-		}).show();
+		new AlertDialog.Builder(this).setTitle("Information").setMessage(msg)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						if (exitRequired) {
+							finish();
+						}
+					}
+				}).show();
 	}
 
 	protected String[] getCategory() {
@@ -153,7 +159,7 @@ public class BaseActivity extends Activity {
 		Languages[] lans = Languages.values();
 		r = new String[lans.length];
 		for (int i = 0; i < lans.length; i++) {
-			r[i++] = lans[i].name();
+			r[i] = lans[i].name();
 		}
 		return r;
 	}

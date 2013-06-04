@@ -21,6 +21,10 @@ public class OrderItem {
 		return amount;
 	}
 
+	public float getTotalPrice() {
+		return dish.getPrice() * this.amount;
+	}
+
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}

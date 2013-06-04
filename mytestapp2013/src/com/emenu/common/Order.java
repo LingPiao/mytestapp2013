@@ -66,6 +66,14 @@ public class Order {
 		return null;
 	}
 
+	public float getTotalPrice() {
+		float t = 0;
+		for (OrderItem item : orderItems) {
+			t += item.getTotalPrice();
+		}
+		return t;
+	}
+
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
 	}
