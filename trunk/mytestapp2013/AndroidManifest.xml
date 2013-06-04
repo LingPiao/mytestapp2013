@@ -33,6 +33,10 @@
             android:name="com.emenu.activity.BaseActivity"
             android:label="" >
         </activity>
+        <activity
+            android:name="com.emenu.activity.FavoriteList"
+            android:label="@string/title_activity_favorite_list" >
+        </activity>
     </application>
 
 </manifest>

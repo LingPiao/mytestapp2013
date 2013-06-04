@@ -39,11 +39,12 @@ public class DishList extends BaseActivity {
 		}
 		if (selectedId > 0) {
 			dishes = dao.loadDishes(selectedId);
-			if (dishes.size() < 1) {
-				msgbox("No Dishes found under Category[ " + selectedCategory + "]");
-			}
 		} else {
 			dishes = dao.loadDishes();
+		}
+
+		if (dishes.size() < 1) {
+			msgbox("No Dishes found under Category[ " + selectedCategory + "]");
 		}
 
 		final DishListAdapter adapter = new DishListAdapter(this, dishes);

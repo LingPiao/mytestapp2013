@@ -21,7 +21,10 @@
 
     <!-- favorite list -->
     <string name="title_activity_favorite_list">FavoriteList</string>
-
+    <string name="btnCancle">Cancle</string>
+    <string name="btnSubmit">Submit</string>
     <!-- end of favorite list -->
+    
+    
 
 </resources>
