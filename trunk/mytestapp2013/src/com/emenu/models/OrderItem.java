@@ -29,14 +29,21 @@ public class OrderItem {
 		this.amount = amount;
 	}
 
+	public void decline() {
+		if (this.amount > 1) {
+			this.amount = this.amount - 1;
+		}
+	}
+
+	public void rise() {
+		this.amount = this.amount + 1;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
 		OrderItem other = (OrderItem) obj;
 		if (this.dish.getId() == other.getDish().getId()) {
 			return true;
