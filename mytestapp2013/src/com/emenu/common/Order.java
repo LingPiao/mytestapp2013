@@ -29,6 +29,10 @@ public class Order {
 		}
 	}
 
+	public void clear() {
+		this.orderItems.clear();
+	}
+
 	public void add(Dish dish) {
 		OrderItem orderItem = new OrderItem(dish, 1);
 		add(orderItem);

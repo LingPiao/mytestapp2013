@@ -10,37 +10,68 @@
         android:layout_height="wrap_content" >
     </ListView>
 
-    <TextView
-        android:id="@+id/lblTotalPrice"
+    <LinearLayout
+        android:id="@+id/layoutTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/favoriteList"
-        android:layout_marginLeft="50dp"
-        android:text="Total" />
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp" >
 
-    <TextView
-        android:id="@+id/txtTotalPrice"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TableNO." />
+
+        <EditText
+            android:id="@+id/txtTableNo"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="0" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Total:"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/txtTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/lblTotalPrice"
-        android:layout_alignBottom="@+id/lblTotalPrice"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/layoutTotalPrice"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="60dp" >
 
-    <Button
-        android:id="@+id/btnCancle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtTotalPrice"
-        android:layout_below="@+id/txtTotalPrice"
-        android:layout_marginLeft="10dp"
-        android:text="@string/btnCancle" />
+        <Button
+            android:id="@+id/btnCancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btnCancle" />
 
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/btnCancle"
-        android:text="@string/btnSubmit" />
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="@string/btnSubmit" />
+    </LinearLayout>
 
 </RelativeLayout>

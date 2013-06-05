@@ -31,8 +31,6 @@ public class DishDetail extends BaseActivity {
 
 		setTitle(dish.getName());
 
-		// Toast.makeText(this, "Dish[id=" + dish.getId() + ",Name=" +
-		// dish.getName() + "] selected.", Toast.LENGTH_SHORT).show();
 		String url = "file://" + XmlUtils.getInstance().getPath("/" + dish.getFile());
 
 		WebView mWebView = (WebView) findViewById(R.id.dishView);
