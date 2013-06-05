@@ -13,7 +13,6 @@
                 android:id="@+id/favorite_row_sn"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
                 android:padding="@dimen/dish_list_padding" />
 
             <TextView
@@ -31,7 +30,7 @@
 
             <TextView
                 android:id="@+id/favorite_row_amount"
-                android:layout_width="60dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding" />
@@ -42,6 +41,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding" />
+
+            <ImageView
+                android:id="@+id/removeItem"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/delete" />
         </TableRow>
     </TableLayout>
 

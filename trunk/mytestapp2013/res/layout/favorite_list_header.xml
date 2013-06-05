@@ -13,7 +13,6 @@
                 android:id="@+id/hd_sn"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:gravity="right"
                 android:padding="@dimen/dish_list_padding"
                 android:text="@string/favorite_hd_sn" />
 
@@ -34,7 +33,7 @@
 
             <TextView
                 android:id="@+id/hd_amount"
-                android:layout_width="60dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding"
@@ -47,6 +46,12 @@
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding"
                 android:text="@string/favorite_hd_sum" />
+
+            <TextView
+                android:id="@+id/hd_operation"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="right" />
         </TableRow>
     </TableLayout>
 
