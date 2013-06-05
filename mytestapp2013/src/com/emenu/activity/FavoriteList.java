@@ -33,7 +33,7 @@ public class FavoriteList extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				Order.getInstance().clear();
-				startActivity(new Intent(FavoriteList.this, FavoriteList.class));
+				startActivity(new Intent(FavoriteList.this, DishList.class));
 				finish();
 			}
 		});
