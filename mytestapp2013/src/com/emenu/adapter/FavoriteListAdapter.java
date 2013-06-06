@@ -50,7 +50,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				oi.decline();
-				context.startActivity(new Intent(context, FavoriteList.class));
+				FavoriteListAdapter.this.notifyDataSetChanged();
 			}
 		});
 
@@ -59,7 +59,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				oi.rise();
-				context.startActivity(new Intent(context, FavoriteList.class));
+				FavoriteListAdapter.this.notifyDataSetChanged();
 			}
 		});
 		return rowView;

@@ -32,16 +32,14 @@
             android:ems="10"
             android:inputType="number"
             android:text="0" >
-
-            <requestFocus />
         </EditText>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="30dp"
             android:text="Total:"
-            android:textSize="30dp" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/txtTotalPrice"

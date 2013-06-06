@@ -1,6 +1,5 @@
 package com.emenu.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +32,7 @@ public class FavoriteList extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				Order.getInstance().clear();
-				startActivity(new Intent(FavoriteList.this, DishList.class));
-				finish();
+				adapter.notifyDataSetChanged();
 			}
 		});
 
