@@ -11,30 +11,52 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
-    <Button
-        android:id="@+id/btnAdd"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="24dp"
-        android:text="@string/btnAdd" />
+        android:layout_below="@+id/dishView" >
 
-    <EditText
-        android:id="@+id/amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnAdd"
-        android:layout_alignBottom="@+id/btnAdd"
-        android:layout_toLeftOf="@+id/btnAdd"
-        android:background="@drawable/backborder"
-        android:ems="3"
-        android:maxLength="4"
-        android:inputType="number"
-        android:maxWidth="10dp"
-        android:minHeight="40dp"
-        android:paddingLeft="10dp"
-        android:text="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price(kr):" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backborder"
+            android:paddingLeft="10dp" />
+
+        <ImageView
+            android:id="@+id/minus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:clickable="true"
+            android:src="@drawable/minus" />
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backborder"
+            android:paddingLeft="10dp"
+            android:text="1" />
+
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:clickable="true"
+            android:src="@drawable/add" />
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btnAdd" />
+    </LinearLayout>
 
 </RelativeLayout>

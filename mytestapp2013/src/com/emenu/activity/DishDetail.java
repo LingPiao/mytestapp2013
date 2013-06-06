@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -43,16 +44,6 @@ public class DishDetail extends BaseActivity {
 		mWebView.loadUrl(url);
 
 		final EditText amount = (EditText) findViewById(R.id.amount);
-		if (amount.getText() == null || amount.getText().length() < 1) {
-			amount.setText("1");
-		} else {
-			int a = Integer.parseInt(amount.getText().toString());
-			if (a < 0) {
-				amount.setText("1");
-			} else if (a > 1000) {
-				amount.setText("1000");
-			}
-		}
 
 		Button add = (Button) findViewById(R.id.btnAdd);
 		add.setOnClickListener(new OnClickListener() {
@@ -60,6 +51,28 @@ public class DishDetail extends BaseActivity {
 			public void onClick(View arg0) {
 				Order.getInstance().add(dish, Integer.parseInt(amount.getText().toString()));
 				Toast.makeText(DishDetail.this, dish.getName() + " added to Favorite list", Toast.LENGTH_SHORT).show();
+			}
+		});
+
+		ImageView ivMinus = (ImageView) findViewById(R.id.minus);
+		ivMinus.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				int a = Integer.parseInt(amount.getText().toString());
+				if (a > 1) {
+					amount.setText(String.valueOf(a - 1));
+				}
+			}
+		});
+
+		ImageView ivAdd = (ImageView) findViewById(R.id.add);
+		ivAdd.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				int a = Integer.parseInt(amount.getText().toString());
+				if (a < 100) {
+					amount.setText(String.valueOf(a + 1));
+				}
 			}
 		});
 	}
