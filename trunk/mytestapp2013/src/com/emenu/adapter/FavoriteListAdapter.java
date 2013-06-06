@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,13 +20,13 @@ import com.emenu.models.OrderItem;
 
 public class FavoriteListAdapter extends BaseAdapter {
 	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
-	LayoutInflater inflater = null;
-	private Context context;
+	private LayoutInflater inflater = null;
+	private FavoriteList listActivity = null;
 
-	public FavoriteListAdapter(Context context) {
-		this.context = context;
+	public FavoriteListAdapter(FavoriteList activity) {
 		this.orderItems = Order.getInstance().getOrderItems();
-		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.listActivity = activity;
+		this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				Order.getInstance().remove(oi);
-				context.startActivity(new Intent(context, FavoriteList.class));
+				FavoriteListAdapter.this.notifyDataSetChanged();
 			}
 		});
 
@@ -51,6 +50,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 			public void onClick(View arg0) {
 				oi.decline();
 				FavoriteListAdapter.this.notifyDataSetChanged();
+				listActivity.updateTotalPrice();
 			}
 		});
 
@@ -60,6 +60,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 			public void onClick(View arg0) {
 				oi.rise();
 				FavoriteListAdapter.this.notifyDataSetChanged();
+				listActivity.updateTotalPrice();
 			}
 		});
 		return rowView;

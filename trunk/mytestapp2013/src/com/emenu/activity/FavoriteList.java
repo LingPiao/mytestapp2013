@@ -1,5 +1,6 @@
 package com.emenu.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.emenu.R;
 import com.emenu.adapter.FavoriteListAdapter;
@@ -24,26 +26,37 @@ public class FavoriteList extends BaseActivity {
 		listview.addHeaderView(LayoutInflater.from(this).inflate(R.layout.favorite_list_header, null));
 		listview.setAdapter(adapter);
 
-		final TextView totalPrice = (TextView) findViewById(R.id.txtTotalPrice);
-		totalPrice.setText(String.valueOf(Order.getInstance().getTotalPrice()));
+		updateTotalPrice();
 
 		Button cancle = (Button) findViewById(R.id.btnCancle);
 		cancle.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Order.getInstance().clear();
-				adapter.notifyDataSetChanged();
+				FavoriteList.this.startActivity(new Intent(FavoriteList.this, FavoriteList.class));
 			}
 		});
 
 		Button submit = (Button) findViewById(R.id.btnSubmit);
+		final TextView tbNo = (TextView) findViewById(R.id.txtTableNo);
 		submit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// TO-DO Write the list to a file
+				boolean r = Order.getInstance().save(tbNo.getText().toString());
+				if (r) {
+					Order.getInstance().clear();
+					FavoriteList.this.startActivity(new Intent(FavoriteList.this, FavoriteList.class));
+				} else {
+					Toast.makeText(FavoriteList.this, "Save order fail, retry later", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 
+	}
+
+	public void updateTotalPrice() {
+		TextView totalPrice = (TextView) findViewById(R.id.txtTotalPrice);
+		totalPrice.setText(String.valueOf(Order.getInstance().getTotalPrice()));
 	}
 
 }

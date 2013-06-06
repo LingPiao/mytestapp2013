@@ -1,7 +1,11 @@
 package com.emenu.common;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.os.Environment;
 
 import com.emenu.models.Dish;
 import com.emenu.models.OrderItem;
@@ -80,5 +84,37 @@ public class Order {
 
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
+	}
+
+	public boolean save(String tableNumber) {
+		boolean r = false;
+		if (orderItems.isEmpty()) {
+			return r;
+		}
+
+		FileOutputStream out = null;
+		try {
+			String appPath = Environment.getExternalStorageDirectory().getPath();
+			out = new FileOutputStream(appPath + Constants.ORDER_LOG);
+			StringBuilder sb = new StringBuilder();
+			sb.append(tableNumber).append("||");
+			for (OrderItem it : orderItems) {
+				sb.append(it.getDish().getName()).append("|").append(it.getAmount()).append("|").append(it.getTotalPrice()).append("||");
+			}
+			byte[] bytes = sb.toString().getBytes();
+			out.write(bytes);
+			out.close();
+			r = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				try {
+					out.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+		return r;
 	}
 }
