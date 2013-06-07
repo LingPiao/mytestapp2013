@@ -99,12 +99,12 @@ public class BaseActivity extends Activity {
 		MLog.d("Loaded tile:" + title);
 		if (title == null) {
 			msgbox("Loading title error,check " + appPath + Constants.TITLE_FILE, true);
-			// finish();
 			return;
 		}
 		setTitle(title);
 
 		XmlUtils.build(appPath);
+
 		// Set Language
 		Bundle b = getIntent().getExtras();
 		if (b != null) {
@@ -116,8 +116,7 @@ public class BaseActivity extends Activity {
 		MLog.d("Checking data...");
 		String chkDataMsg = Utils.isDataReady();
 		if (chkDataMsg != null) {
-			msgbox(chkDataMsg, true);
-			// finish();
+			msgbox(chkDataMsg);
 			return;
 		}
 		MLog.d("Checking data passed.");

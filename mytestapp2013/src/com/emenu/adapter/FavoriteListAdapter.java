@@ -41,6 +41,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 			public void onClick(View arg0) {
 				Order.getInstance().remove(oi);
 				FavoriteListAdapter.this.notifyDataSetChanged();
+				listActivity.updateTotalPrice();
 			}
 		});
 
