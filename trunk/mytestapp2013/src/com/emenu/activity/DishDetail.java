@@ -8,9 +8,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -43,7 +43,7 @@ public class DishDetail extends BaseActivity {
 		mWebView.getSettings().setUseWideViewPort(true);
 		mWebView.loadUrl(url);
 
-		final EditText amount = (EditText) findViewById(R.id.amount);
+		final TextView amount = (TextView) findViewById(R.id.amount);
 
 		Button add = (Button) findViewById(R.id.btnAdd);
 		add.setOnClickListener(new OnClickListener() {
@@ -75,6 +75,9 @@ public class DishDetail extends BaseActivity {
 				}
 			}
 		});
+
+		TextView price = (TextView) findViewById(R.id.price);
+		price.setText(String.valueOf(dish.getPrice()));
 	}
 
 	public class MyWebChromeClient extends WebChromeClient {
