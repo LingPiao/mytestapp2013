@@ -37,6 +37,12 @@ public class EMenuDaoImpl implements EMenuDao {
 						menu = new MenuItem();
 						menu.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 						menu.setName(xpp.getAttributeValue(null, "name"));
+						String strSpe = xpp.getAttributeValue(null, "isSpecial");
+						if (strSpe == null || "false".equals(strSpe)) {
+							menu.setSpecial(false);
+						} else {
+							menu.setSpecial(true);
+						}
 					}
 					// System.out.println("Start tag " + xpp.getName());
 				} else if (eventType == XmlPullParser.END_TAG) {
@@ -53,11 +59,10 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null)
-				try {
-					in.close();
-				} catch (IOException e) {
-				}
+			if (in != null) try {
+				in.close();
+			} catch (IOException e) {
+			}
 		}
 
 		return l;
@@ -112,11 +117,10 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null)
-				try {
-					in.close();
-				} catch (IOException e) {
-				}
+			if (in != null) try {
+				in.close();
+			} catch (IOException e) {
+			}
 		}
 
 		return l;
@@ -173,11 +177,10 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null)
-				try {
-					in.close();
-				} catch (IOException e) {
-				}
+			if (in != null) try {
+				in.close();
+			} catch (IOException e) {
+			}
 		}
 
 		return l;

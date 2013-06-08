@@ -1,5 +1,6 @@
 package com.emenu.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
@@ -7,10 +8,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Gallery;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
+import com.emenu.adapter.SpecialListAdapter;
 import com.emenu.common.Constants;
 import com.emenu.common.MLog;
 import com.emenu.models.Dish;
@@ -25,7 +29,10 @@ public class DishList extends BaseActivity {
 
 		checkEnv();
 
-		List<Dish> dishes = null;
+		List<Dish> dishes = new ArrayList<Dish>();
+		List<Dish> specials = new ArrayList<Dish>();
+		boolean showSpecials = true;
+
 		if (getIntent() != null && getIntent().getExtras() != null) {
 			Object o = (com.emenu.models.MenuItem) getIntent().getSerializableExtra(Constants.SELECTED_MENU_ITEM_KEY);
 			if (o != null) {
@@ -39,12 +46,25 @@ public class DishList extends BaseActivity {
 		}
 		if (selectedId > 0) {
 			dishes = dao.loadDishes(selectedId);
+			showSpecials = false;
 		} else {
 			dishes = dao.loadDishes();
 		}
 
 		if (dishes.size() < 1) {
+			showSpecials = false;
 			msgbox("No Dishes found under Category[ " + selectedCategory + "]");
+		}
+
+		if (showSpecials) {
+			specials = getSpecials(dishes);
+			if (specials.size() > 0) {
+				LinearLayout specialListLayout = (LinearLayout) findViewById(R.id.specialListLayout);
+				specialListLayout.setVisibility(View.VISIBLE);
+				Gallery gallery = (Gallery) findViewById(R.id.speGallery);
+				SpecialListAdapter imageAdapter = new SpecialListAdapter(this, dishes);
+				gallery.setAdapter(imageAdapter);
+			}
 		}
 
 		final DishListAdapter adapter = new DishListAdapter(this, dishes);
@@ -59,6 +79,26 @@ public class DishList extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+	}
+
+	private List<Dish> getSpecials(List<Dish> dishes) {
+		List<Dish> s = new ArrayList<Dish>();
+		List<com.emenu.models.MenuItem> menus = dao.loadMenus();
+		List<Long> speIds = new ArrayList<Long>();
+		for (com.emenu.models.MenuItem mi : menus) {
+			if (mi.isSpecial()) {
+				speIds.add(mi.getId());
+			}
+		}
+		for (Dish d : dishes) {
+			List<Long> beLongsTo = d.getBelongsTo();
+			for (Long id : beLongsTo) {
+				if (speIds.contains(id)) {
+					s.add(d);
+				}
+			}
+		}
+		return s;
 	}
 
 	@Override
