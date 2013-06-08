@@ -45,7 +45,7 @@ public class FavoriteList extends BaseActivity {
 				boolean r = Order.getInstance().save(tbNo.getText().toString());
 				if (r) {
 					Order.getInstance().clear();
-					FavoriteList.this.startActivity(new Intent(FavoriteList.this, FavoriteList.class));
+					FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
 				} else {
 					Toast.makeText(FavoriteList.this, "Save order fail, retry later", Toast.LENGTH_SHORT).show();
 				}
