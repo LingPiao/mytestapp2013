@@ -1,6 +1,7 @@
 package com.emenu.common;
 
-import java.io.FileOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,17 +93,30 @@ public class Order {
 			return r;
 		}
 
-		FileOutputStream out = null;
+		FileWriter out = null;
 		try {
 			String appPath = Environment.getExternalStorageDirectory().getPath();
-			out = new FileOutputStream(appPath + Constants.ORDER_LOG);
+
+			File logFile = new File(appPath + Constants.ORDER_LOG);
+			if (logFile.length() > Constants.MAX_LOG_FILE_SIZE) {
+				File logBak = new File(appPath + Constants.ORDER_LOG_BAK);
+				logBak.delete();
+				logFile.renameTo(logBak);
+				logFile = new File(appPath + Constants.ORDER_LOG);
+			}
+			if (logFile.exists()) {
+				out = new FileWriter(logFile, true);
+			} else {
+				out = new FileWriter(logFile);
+			}
 			StringBuilder sb = new StringBuilder();
 			sb.append(tableNumber).append("||");
 			for (OrderItem it : orderItems) {
-				sb.append(it.getDish().getName()).append("|").append(it.getAmount()).append("|").append(it.getTotalPrice()).append("||");
+				sb.append(it.getDish().getName()).append("|").append(it.getAmount()).append("|").append(it.getTotalPrice())
+						.append("||");
 			}
-			byte[] bytes = sb.toString().getBytes();
-			out.write(bytes);
+			sb.append("\n");
+			out.write(sb.toString());
 			out.close();
 			r = true;
 		} catch (Exception e) {

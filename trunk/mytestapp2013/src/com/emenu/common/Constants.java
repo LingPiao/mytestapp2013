@@ -15,4 +15,6 @@ public class Constants {
 
 	public static final String DEFAULT_CURRENCY_UNIT = "kr";
 
+	public static final long MAX_LOG_FILE_SIZE = 1677721600; // 200MB=200*1024*1024*8;
+
 }
