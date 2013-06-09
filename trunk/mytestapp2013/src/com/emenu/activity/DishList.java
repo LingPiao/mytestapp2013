@@ -1,20 +1,23 @@
 package com.emenu.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Gallery;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
-import com.emenu.adapter.SpecialListAdapter;
 import com.emenu.common.Constants;
 import com.emenu.common.MLog;
 import com.emenu.models.Dish;
@@ -59,11 +62,33 @@ public class DishList extends BaseActivity {
 		if (showSpecials) {
 			specials = getSpecials(dishes);
 			if (specials.size() > 0) {
+				final HorizontalScrollView speHsv = (HorizontalScrollView) findViewById(R.id.speHsv);
+				speHsv.setVisibility(View.VISIBLE);
+
 				LinearLayout specialListLayout = (LinearLayout) findViewById(R.id.specialListLayout);
-				specialListLayout.setVisibility(View.VISIBLE);
-				Gallery gallery = (Gallery) findViewById(R.id.speGallery);
-				SpecialListAdapter imageAdapter = new SpecialListAdapter(this, dishes);
-				gallery.setAdapter(imageAdapter);
+
+				for (Dish dish : specials) {
+					ImageView img = new ImageView(this);
+					File imgf = new File(dish.getImage());
+					if (imgf.exists()) {
+						Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
+						img.setImageBitmap(dimg);
+					} else {
+						img.setImageResource(R.drawable.default_images);
+					}
+					specialListLayout.addView(img);
+				}
+
+				speHsv.postDelayed(new Runnable() {
+					public void run() {
+						speHsv.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+					}
+				}, 1000L);
+
+				// Gallery gallery = (Gallery) findViewById(R.id.speGallery);
+				// SpecialListAdapter imageAdapter = new
+				// SpecialListAdapter(this, dishes);
+				// gallery.setAdapter(imageAdapter);
 			}
 		}
 

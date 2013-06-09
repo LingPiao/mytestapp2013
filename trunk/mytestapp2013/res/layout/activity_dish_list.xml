@@ -4,24 +4,26 @@
     android:layout_height="match_parent"
     tools:context=".DishList" >
 
-    <LinearLayout
-        android:id="@+id/specialListLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+    <HorizontalScrollView
+        android:id="@+id/speHsv"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
         android:visibility="gone" >
 
-        <Gallery
-            android:id="@+id/speGallery"
+        <LinearLayout
+            android:id="@+id/specialListLayout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
-    </LinearLayout>
+            android:layout_height="wrap_content" >
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <ListView
         android:id="@+id/dishList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/specialListLayout" />
+        android:layout_below="@+id/speHsv" />
 
 </RelativeLayout>
