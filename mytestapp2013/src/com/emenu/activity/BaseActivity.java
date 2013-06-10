@@ -92,14 +92,14 @@ public class BaseActivity extends Activity {
 		return true;
 	}
 
-	protected void checkEnv() {
+	protected boolean checkEnv() {
 		setTitle("Loading...");
 		String title = Utils.loadTitle();
 		String appPath = Environment.getExternalStorageDirectory().getPath();
 		MLog.d("Loaded tile:" + title);
 		if (title == null) {
 			msgbox("Loading title error,check " + appPath + Constants.TITLE_FILE, true);
-			return;
+			return false;
 		}
 		setTitle(title);
 
@@ -117,10 +117,10 @@ public class BaseActivity extends Activity {
 		String chkDataMsg = Utils.isDataReady();
 		if (chkDataMsg != null) {
 			msgbox(chkDataMsg);
-			return;
+			return false;
 		}
 		MLog.d("Checking data passed.");
-
+		return true;
 	}
 
 	protected void msgbox(String msg) {
