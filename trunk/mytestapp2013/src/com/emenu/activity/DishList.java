@@ -3,6 +3,8 @@ package com.emenu.activity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
 import com.emenu.R;
@@ -30,7 +33,9 @@ public class DishList extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dish_list);
 
-		checkEnv();
+		if (!checkEnv()) {
+			return;
+		}
 
 		List<Dish> dishes = new ArrayList<Dish>();
 		List<Dish> specials = new ArrayList<Dish>();
@@ -66,7 +71,7 @@ public class DishList extends BaseActivity {
 				speHsv.setVisibility(View.VISIBLE);
 
 				LinearLayout specialListLayout = (LinearLayout) findViewById(R.id.specialListLayout);
-
+				final int count = specials.size();
 				for (Dish dish : specials) {
 					ImageView img = new ImageView(this);
 					File imgf = new File(dish.getImage());
@@ -76,19 +81,28 @@ public class DishList extends BaseActivity {
 					} else {
 						img.setImageResource(R.drawable.default_images);
 					}
+					LayoutParams lp = new LayoutParams(300, 300);
+					lp.setMargins(3, 3, 3, 3);
+					img.setLayoutParams(lp);
 					specialListLayout.addView(img);
 				}
 
-				speHsv.postDelayed(new Runnable() {
-					public void run() {
-						speHsv.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
-					}
-				}, 1000L);
+				TimerTask task = new TimerTask() {
+					int i = 0;
 
-				// Gallery gallery = (Gallery) findViewById(R.id.speGallery);
-				// SpecialListAdapter imageAdapter = new
-				// SpecialListAdapter(this, dishes);
-				// gallery.setAdapter(imageAdapter);
+					public void run() {
+						MLog.d("==========Handler().postDelayed() running ...");
+						speHsv.smoothScrollTo(i * 300, (i + 1) * 300);
+						if (i >= count - 1) {
+							i = 0;
+						} else {
+							i++;
+						}
+					}
+				};
+
+				new Timer().scheduleAtFixedRate(task, 1000, 3000);
+
 			}
 		}
 
