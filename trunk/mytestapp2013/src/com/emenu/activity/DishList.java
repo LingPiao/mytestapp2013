@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
@@ -129,6 +130,8 @@ public class DishList extends BaseActivity {
 				} else {
 					i++;
 				}
+				String pos = "scrollX=" + speHsv.getScrollX() + ",scrollY=" + speHsv.getScrollY() + ",getLeft=" + speHsv.getLeft();
+				Toast.makeText(DishList.this, pos, Toast.LENGTH_SHORT).show();
 			}
 		};
 
