@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -67,42 +68,7 @@ public class DishList extends BaseActivity {
 		if (showSpecials) {
 			specials = getSpecials(dishes);
 			if (specials.size() > 0) {
-				final HorizontalScrollView speHsv = (HorizontalScrollView) findViewById(R.id.speHsv);
-				speHsv.setVisibility(View.VISIBLE);
-
-				LinearLayout specialListLayout = (LinearLayout) findViewById(R.id.specialListLayout);
-				final int count = specials.size();
-				for (Dish dish : specials) {
-					ImageView img = new ImageView(this);
-					File imgf = new File(dish.getImage());
-					if (imgf.exists()) {
-						Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
-						img.setImageBitmap(dimg);
-					} else {
-						img.setImageResource(R.drawable.default_images);
-					}
-					LayoutParams lp = new LayoutParams(300, 300);
-					lp.setMargins(3, 3, 3, 3);
-					img.setLayoutParams(lp);
-					specialListLayout.addView(img);
-				}
-
-				TimerTask task = new TimerTask() {
-					int i = 0;
-
-					public void run() {
-						MLog.d("==========Handler().postDelayed() running ...");
-						speHsv.smoothScrollTo(i * 300, (i + 1) * 300);
-						if (i >= count - 1) {
-							i = 0;
-						} else {
-							i++;
-						}
-					}
-				};
-
-				new Timer().scheduleAtFixedRate(task, 1000, 3000);
-
+				showSpecials(specials);
 			}
 		}
 
@@ -118,6 +84,55 @@ public class DishList extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+	}
+
+	private void showSpecials(List<Dish> specials) {
+		final HorizontalScrollView speHsv = (HorizontalScrollView) findViewById(R.id.speHsv);
+		speHsv.setVisibility(View.VISIBLE);
+
+		LinearLayout specialListLayout = (LinearLayout) findViewById(R.id.specialListLayout);
+		final int count = specials.size();
+		for (final Dish dish : specials) {
+			ImageView img = new ImageView(this);
+			File imgf = new File(dish.getImage());
+			if (imgf.exists()) {
+				Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
+				img.setImageBitmap(dimg);
+			} else {
+				img.setImageResource(R.drawable.default_images);
+			}
+
+			img.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(DishList.this, DishDetail.class);
+					intent.putExtra(Constants.DISH_KEY, dish);
+					startActivity(intent);
+				}
+
+			});
+			LayoutParams lp = new LayoutParams(300, 300);
+			lp.setMargins(3, 3, 3, 3);
+			img.setLayoutParams(lp);
+			specialListLayout.addView(img);
+		}
+
+		TimerTask task = new TimerTask() {
+			int i = 0;
+
+			public void run() {
+				// MLog.d("==========Scrolling ...");
+				speHsv.smoothScrollTo(i * 300, (i + 1) * 300);
+				if (i >= count - 1) {
+					i = 0;
+				} else {
+					i++;
+				}
+			}
+		};
+
+		new Timer().scheduleAtFixedRate(task, 1000, 3000);
 	}
 
 	private List<Dish> getSpecials(List<Dish> dishes) {

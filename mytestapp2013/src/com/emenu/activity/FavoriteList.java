@@ -42,10 +42,15 @@ public class FavoriteList extends BaseActivity {
 		submit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				if (Order.getInstance().getOrderItems() == null || Order.getInstance().getOrderItems().size() < 1) {
+					FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
+					finish();
+				}
 				boolean r = Order.getInstance().save(tbNo.getText().toString());
 				if (r) {
 					Order.getInstance().clear();
 					FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
+					finish();
 				} else {
 					Toast.makeText(FavoriteList.this, "Save order fail, retry later", Toast.LENGTH_SHORT).show();
 				}
