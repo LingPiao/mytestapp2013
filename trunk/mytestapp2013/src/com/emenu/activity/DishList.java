@@ -131,7 +131,9 @@ public class DishList extends BaseActivity {
 					i++;
 				}
 				String pos = "scrollX=" + speHsv.getScrollX() + ",scrollY=" + speHsv.getScrollY() + ",getLeft=" + speHsv.getLeft();
-				Toast.makeText(DishList.this, pos, Toast.LENGTH_SHORT).show();
+				// Toast.makeText(DishList.this, pos,
+				// Toast.LENGTH_SHORT).show();
+				MLog.d("==========" + pos);
 			}
 		};
 
