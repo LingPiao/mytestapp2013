@@ -24,7 +24,7 @@
     <string name="btnCancle">Cancle</string>
     <string name="btnSubmit">Submit</string>
     <!-- end of favorite list -->
-    
-    
+
+    <string name="aboutContent">Version: V1.0</string>
 
 </resources>

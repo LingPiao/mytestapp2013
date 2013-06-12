@@ -7,7 +7,7 @@
     <WebView
         android:id="@+id/dishView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
@@ -16,26 +16,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/dishView"
-        android:layout_centerVertical="true" >
+        android:baselineAligned="false" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price(kr):" />
+            android:gravity="center"
+            android:text="Price(kr):"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/price"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:background="@drawable/backborder"
-            android:paddingLeft="10dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:gravity="center"
+            android:textSize="24dp" />
 
         <ImageView
             android:id="@+id/minus"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="8dp"
             android:clickable="true"
             android:src="@drawable/minus" />
 
@@ -43,14 +46,16 @@
             android:id="@+id/amount"
             android:layout_width="50dp"
             android:layout_height="40dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/backborder"
-            android:paddingLeft="10dp"
+            android:gravity="center"
             android:text="1" />
 
         <ImageView
             android:id="@+id/add"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginRight="20dp"
             android:clickable="true"
             android:src="@drawable/add" />
 
@@ -58,6 +63,7 @@
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:text="@string/btnAdd" />
     </LinearLayout>
 
