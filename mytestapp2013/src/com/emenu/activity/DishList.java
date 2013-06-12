@@ -16,10 +16,10 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
@@ -88,12 +88,23 @@ public class DishList extends BaseActivity {
 	}
 
 	private void showSpecials(List<Dish> specials) {
+
+		List<Dish> speList = new ArrayList<Dish>();
+		for (Dish dish : specials) {
+			speList.add(dish);
+		}
+		for (Dish dish : specials) {
+			speList.add(dish);
+		}
 		final HorizontalScrollView speHsv = (HorizontalScrollView) findViewById(R.id.speHsv);
 		speHsv.setVisibility(View.VISIBLE);
 
 		LinearLayout specialListLayout = (LinearLayout) findViewById(R.id.specialListLayout);
-		final int count = specials.size();
-		for (final Dish dish : specials) {
+
+		// Drawable imgbd =
+		// this.getResources().getDrawable(R.drawable.imgborder);
+		final int count = speList.size();
+		for (final Dish dish : speList) {
 			ImageView img = new ImageView(this);
 			File imgf = new File(dish.getImage());
 			if (imgf.exists()) {
@@ -113,9 +124,13 @@ public class DishList extends BaseActivity {
 				}
 
 			});
+			// img.setBackground(imgbd);
+
 			LayoutParams lp = new LayoutParams(300, 300);
 			lp.setMargins(3, 3, 3, 3);
 			img.setLayoutParams(lp);
+			img.setScaleType(ScaleType.FIT_XY);
+
 			specialListLayout.addView(img);
 		}
 
@@ -124,20 +139,16 @@ public class DishList extends BaseActivity {
 
 			public void run() {
 				// MLog.d("==========Scrolling ...");
-				speHsv.smoothScrollTo(i * 300, (i + 1) * 300);
-				if (i >= count - 1) {
+				speHsv.smoothScrollTo(i * 300, 0);
+				if (i >= count - 3) {
 					i = 0;
 				} else {
 					i++;
 				}
-				String pos = "scrollX=" + speHsv.getScrollX() + ",scrollY=" + speHsv.getScrollY() + ",getLeft=" + speHsv.getLeft();
-				// Toast.makeText(DishList.this, pos,
-				// Toast.LENGTH_SHORT).show();
-				MLog.d("==========" + pos);
 			}
 		};
 
-		new Timer().scheduleAtFixedRate(task, 1000, 3000);
+		new Timer().scheduleAtFixedRate(task, 1000, 1000);
 	}
 
 	private List<Dish> getSpecials(List<Dish> dishes) {
