@@ -59,8 +59,7 @@
         android:layout_alignBottom="@+id/add"
         android:layout_alignParentLeft="true"
         android:adjustViewBounds="true"
-        android:maxWidth="100dp"
-        android:scaleType="fitXY"
+        style="@style/DishImage"
         android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>

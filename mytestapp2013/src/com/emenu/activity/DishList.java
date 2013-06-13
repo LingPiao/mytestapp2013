@@ -101,11 +101,9 @@ public class DishList extends BaseActivity {
 
 		LinearLayout specialListLayout = (LinearLayout) findViewById(R.id.specialListLayout);
 
-		// Drawable imgbd =
-		// this.getResources().getDrawable(R.drawable.imgborder);
 		final int count = speList.size();
 		for (final Dish dish : speList) {
-			ImageView img = new ImageView(this);
+			ImageView img = new ImageView(this, null, R.style.SpecialImage);
 			File imgf = new File(dish.getImage());
 			if (imgf.exists()) {
 				Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
@@ -124,9 +122,7 @@ public class DishList extends BaseActivity {
 				}
 
 			});
-			// img.setBackground(imgbd);
-
-			LayoutParams lp = new LayoutParams(300, 300);
+			LayoutParams lp = new LayoutParams(220, 220);
 			lp.setMargins(3, 3, 3, 3);
 			img.setLayoutParams(lp);
 			img.setScaleType(ScaleType.FIT_XY);
