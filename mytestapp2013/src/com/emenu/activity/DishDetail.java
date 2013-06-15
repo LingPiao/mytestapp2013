@@ -22,6 +22,8 @@ import com.emenu.models.Dish;
 
 public class DishDetail extends BaseActivity {
 
+	private MyWebChromeClient myChromeClient = null;
+
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,8 @@ public class DishDetail extends BaseActivity {
 		String url = "file://" + XmlUtils.getInstance().getPath("/" + dish.getFile());
 
 		WebView mWebView = (WebView) findViewById(R.id.dishView);
-		mWebView.setWebChromeClient(new MyWebChromeClient());
+		myChromeClient = new MyWebChromeClient();
+		mWebView.setWebChromeClient(myChromeClient);
 		// mWebView.setWebViewClient(new MyWebViewClient());
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setPluginState(PluginState.ON);
@@ -81,17 +84,40 @@ public class DishDetail extends BaseActivity {
 	}
 
 	public class MyWebChromeClient extends WebChromeClient {
+		private VideoView video = null;
+
 		@Override
 		public void onShowCustomView(View view, CustomViewCallback callback) {
 			super.onShowCustomView(view, callback);
 			if (view instanceof FrameLayout) {
 				FrameLayout frame = (FrameLayout) view;
 				if (frame.getFocusedChild() instanceof VideoView) {
-					VideoView video = (VideoView) frame.getFocusedChild();
+					video = (VideoView) frame.getFocusedChild();
 					frame.removeView(video);
 					video.start();
 				}
 			}
+		}
+
+		public void stop() {
+			if (video != null) video.stopPlayback();
+		}
+
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (myChromeClient != null) {
+			myChromeClient.stop();
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if (myChromeClient != null) {
+			myChromeClient.stop();
 		}
 	}
 

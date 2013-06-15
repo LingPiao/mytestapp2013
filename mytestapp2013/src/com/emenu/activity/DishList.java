@@ -144,7 +144,7 @@ public class DishList extends BaseActivity {
 			}
 		};
 
-		new Timer().scheduleAtFixedRate(task, 1000, 1000);
+		new Timer().scheduleAtFixedRate(task, 1000, 2000);
 	}
 
 	private List<Dish> getSpecials(List<Dish> dishes) {
