@@ -1,18 +1,16 @@
 package com.emenu.activity;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView.RecyclerListener;
 import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -23,11 +21,14 @@ import android.widget.ListView;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
+import com.emenu.common.BitmapLoader;
 import com.emenu.common.Constants;
 import com.emenu.common.MLog;
 import com.emenu.models.Dish;
 
 public class DishList extends BaseActivity {
+
+	private DishListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class DishList extends BaseActivity {
 			}
 		}
 
-		final DishListAdapter adapter = new DishListAdapter(this, dishes);
+		adapter = new DishListAdapter(this, dishes);
 		final ListView listview = (ListView) findViewById(R.id.dishList);
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,6 +86,18 @@ public class DishList extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+
+		listview.setRecyclerListener(new RecyclerListener() {
+			@Override
+			public void onMovedToScrapHeap(View view) {
+				// Release strong reference when a view is recycled
+				final ImageView imageView = (ImageView) view.findViewById(R.id.img);
+				if (imageView != null) {
+					MLog.d("========= Remove image bitmap");
+					imageView.setImageBitmap(null);
+				}
+			}
+		});
 	}
 
 	private void showSpecials(List<Dish> specials) {
@@ -93,9 +106,9 @@ public class DishList extends BaseActivity {
 		for (Dish dish : specials) {
 			speList.add(dish);
 		}
-		for (Dish dish : specials) {
-			speList.add(dish);
-		}
+		// for (Dish dish : specials) {
+		// speList.add(dish);
+		// }
 		final HorizontalScrollView speHsv = (HorizontalScrollView) findViewById(R.id.speHsv);
 		speHsv.setVisibility(View.VISIBLE);
 
@@ -104,14 +117,7 @@ public class DishList extends BaseActivity {
 		final int count = speList.size();
 		for (final Dish dish : speList) {
 			ImageView img = new ImageView(this, null, R.style.SpecialImage);
-			File imgf = new File(dish.getImage());
-			if (imgf.exists()) {
-				Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
-				img.setImageBitmap(dimg);
-			} else {
-				img.setImageResource(R.drawable.default_images);
-			}
-
+			BitmapLoader.getInstance().boundImage(img, dish.getImage());
 			img.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -171,6 +177,13 @@ public class DishList extends BaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+
+	@Override
+	public void onDestroy() {
+		MLog.d("========Destory bitmaps");
+		super.onDestroy();
+		BitmapLoader.getInstance().recycleBitmaps();
 	}
 
 }

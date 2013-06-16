@@ -1,12 +1,9 @@
 package com.emenu.adapter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.emenu.R;
+import com.emenu.common.BitmapLoader;
 import com.emenu.common.Utils;
 import com.emenu.models.Dish;
 
 public class DishListAdapter extends BaseAdapter {
 	private List<Dish> dishes = new ArrayList<Dish>();
-	LayoutInflater inflater = null;
+	private LayoutInflater inflater = null;
 
 	public DishListAdapter(Context context, List<Dish> dishes) {
 		this.dishes = dishes;
@@ -36,13 +34,7 @@ public class DishListAdapter extends BaseAdapter {
 		TextView price = (TextView) rowView.findViewById(R.id.price);
 		ImageView img = (ImageView) rowView.findViewById(R.id.img);
 
-		File imgf = new File(d.getImage());
-		if (imgf.exists()) {
-			Bitmap dimg = BitmapFactory.decodeFile(imgf.getAbsolutePath());
-			img.setImageBitmap(dimg);
-		} else {
-			img.setImageResource(R.drawable.default_images);
-		}
+		BitmapLoader.getInstance().boundImage(img, d.getImage());
 
 		name.setText(d.getName());
 		desc.setText(d.getIntroduction());
@@ -64,4 +56,5 @@ public class DishListAdapter extends BaseAdapter {
 	public long getItemId(int posistion) {
 		return dishes.get(posistion).getId();
 	}
+
 }
