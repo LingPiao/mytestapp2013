@@ -44,11 +44,12 @@
     <ImageView
         android:id="@+id/img"
         style="@style/DishImage"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignBottom="@+id/add"
         android:layout_alignParentLeft="true"
         android:adjustViewBounds="true"
+        android:background="@drawable/imgborder"
         android:scaleType="fitXY"
         android:src="@drawable/ic_launcher" />
 

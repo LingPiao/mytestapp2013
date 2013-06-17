@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AbsListView.RecyclerListener;
 import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -28,7 +27,9 @@ import com.emenu.models.Dish;
 
 public class DishList extends BaseActivity {
 
-	private DishListAdapter adapter;
+	private DishListAdapter adapter = null;
+
+	private Timer timer = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class DishList extends BaseActivity {
 
 	@Override
 	protected void onResume() {
+		super.onResume();
 		List<Dish> dishes = new ArrayList<Dish>();
 		List<Dish> specials = new ArrayList<Dish>();
 		boolean showSpecials = true;
@@ -91,17 +93,17 @@ public class DishList extends BaseActivity {
 			}
 		});
 
-		listview.setRecyclerListener(new RecyclerListener() {
-			@Override
-			public void onMovedToScrapHeap(View view) {
-				// Release strong reference when a view is recycled
-				final ImageView imageView = (ImageView) view.findViewById(R.id.img);
-				if (imageView != null) {
-					MLog.d("========= Remove image bitmap");
-					imageView.setImageBitmap(null);
-				}
-			}
-		});
+		// listview.setRecyclerListener(new RecyclerListener() {
+		// @Override
+		// public void onMovedToScrapHeap(View view) {
+		// // Release strong reference when a view is recycled
+		// final ImageView imageView = (ImageView) view.findViewById(R.id.img);
+		// if (imageView != null) {
+		// MLog.d("========= Remove image bitmap");
+		// imageView.setImageBitmap(null);
+		// }
+		// }
+		// });
 	}
 
 	@Override
@@ -166,8 +168,10 @@ public class DishList extends BaseActivity {
 				}
 			}
 		};
-
-		new Timer().scheduleAtFixedRate(task, 1000, 2000);
+		if (timer == null) {
+			timer = new Timer("ScrollTimer");
+			timer.scheduleAtFixedRate(task, 1000, 2000);
+		}
 	}
 
 	private List<Dish> getSpecials(List<Dish> dishes) {

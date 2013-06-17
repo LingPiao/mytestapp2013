@@ -28,18 +28,21 @@ public class DishListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Dish d = dishes.get(position);
-		View rowView = inflater.inflate(R.layout.dish_row, parent, false);
-		TextView name = (TextView) rowView.findViewById(R.id.dishName);
-		TextView desc = (TextView) rowView.findViewById(R.id.desc);
-		TextView price = (TextView) rowView.findViewById(R.id.price);
-		ImageView img = (ImageView) rowView.findViewById(R.id.img);
+		ViewHolder vh = null;
+		if (convertView == null) {
+			convertView = inflater.inflate(R.layout.dish_row, parent, false);
+			vh = new ViewHolder(convertView);
+			convertView.setTag(vh);
+		} else {
+			vh = (ViewHolder) convertView.getTag();
+		}
 
-		BitmapLoader.getInstance().boundImage(img, d.getImage());
+		BitmapLoader.getInstance().boundImage(vh.getImgView(), d.getImage());
+		vh.getNameView().setText(d.getName());
+		vh.getDescView().setText(d.getIntroduction());
+		vh.getPriceView().setText(Utils.formatPrice(d.getPrice()));
 
-		name.setText(d.getName());
-		desc.setText(d.getIntroduction());
-		price.setText(Utils.formatPrice(d.getPrice()));
-		return rowView;
+		return convertView;
 	}
 
 	@Override
@@ -65,6 +68,13 @@ class ViewHolder {
 	private TextView descView;
 	private TextView priceView;
 	private ImageView imgView;
+
+	public ViewHolder(View view) {
+		nameView = (TextView) view.findViewById(R.id.dishName);
+		descView = (TextView) view.findViewById(R.id.desc);
+		priceView = (TextView) view.findViewById(R.id.price);
+		imgView = (ImageView) view.findViewById(R.id.img);
+	}
 
 	public TextView getNameView() {
 		return nameView;

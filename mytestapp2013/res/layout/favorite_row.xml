@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:stretchColumns="4" >
 
-        <TableRow>
+        <TableRow android:gravity="center" >
 
             <TextView
                 android:id="@+id/favorite_row_sn"
@@ -37,22 +37,22 @@
 
                 <ImageView
                     android:id="@+id/minus"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:clickable="true"
                     android:src="@drawable/minus" />
 
                 <TextView
                     android:id="@+id/favorite_row_amount"
-                    android:layout_width="50dp"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="@dimen/dish_list_padding" />
 
                 <ImageView
                     android:id="@+id/add"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:clickable="true"
                     android:src="@drawable/add" />
             </LinearLayout>
@@ -64,12 +64,19 @@
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding" />
 
-            <ImageView
-                android:id="@+id/removeItem"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:clickable="true"
-                android:src="@drawable/delete" />
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/removeItem"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:clickable="true"
+                    android:paddingRight="8dp"
+                    android:src="@drawable/delete" />
+            </LinearLayout>
         </TableRow>
     </TableLayout>
 
