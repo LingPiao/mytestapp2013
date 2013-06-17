@@ -40,6 +40,10 @@ public class DishList extends BaseActivity {
 			return;
 		}
 
+	}
+
+	@Override
+	protected void onResume() {
 		List<Dish> dishes = new ArrayList<Dish>();
 		List<Dish> specials = new ArrayList<Dish>();
 		boolean showSpecials = true;
@@ -98,6 +102,19 @@ public class DishList extends BaseActivity {
 				}
 			}
 		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public void onDestroy() {
+		MLog.d("========Destory bitmaps");
+		super.onDestroy();
+		BitmapLoader.getInstance().recycleBitmaps();
 	}
 
 	private void showSpecials(List<Dish> specials) {
@@ -171,19 +188,6 @@ public class DishList extends BaseActivity {
 			}
 		}
 		return s;
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public void onDestroy() {
-		MLog.d("========Destory bitmaps");
-		super.onDestroy();
-		BitmapLoader.getInstance().recycleBitmaps();
 	}
 
 }

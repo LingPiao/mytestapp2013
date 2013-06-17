@@ -63,7 +63,7 @@ public class BaseActivity extends Activity {
 		} else if (id == R.id.favorite) {
 			Intent intent = new Intent(BaseActivity.this, FavoriteList.class);
 			startActivity(intent);
-			// finish();
+			finish();
 		} else if (id == R.id.about) {
 			msgbox("\t" + getString(R.string.aboutContent));
 			// Intent intent = new Intent(BaseActivity.this, About.class);
