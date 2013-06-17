@@ -58,3 +58,44 @@ public class DishListAdapter extends BaseAdapter {
 	}
 
 }
+
+class ViewHolder {
+
+	private TextView nameView;
+	private TextView descView;
+	private TextView priceView;
+	private ImageView imgView;
+
+	public TextView getNameView() {
+		return nameView;
+	}
+
+	public void setNameView(TextView nameView) {
+		this.nameView = nameView;
+	}
+
+	public TextView getDescView() {
+		return descView;
+	}
+
+	public void setDescView(TextView descView) {
+		this.descView = descView;
+	}
+
+	public TextView getPriceView() {
+		return priceView;
+	}
+
+	public void setPriceView(TextView priceView) {
+		this.priceView = priceView;
+	}
+
+	public ImageView getImgView() {
+		return imgView;
+	}
+
+	public void setImgView(ImageView imgView) {
+		this.imgView = imgView;
+	}
+
+}
