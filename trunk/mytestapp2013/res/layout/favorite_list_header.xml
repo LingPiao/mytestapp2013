@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp" >
+    android:layout_height="30dp"
+    android:layout_marginTop="12dp"
+    android:gravity="center" >
 
     <TableLayout
         android:layout_width="fill_parent"
@@ -51,7 +52,7 @@
             <TextView
                 android:id="@+id/hd_operation"
                 android:layout_width="80dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:gravity="right" />
         </TableRow>
     </TableLayout>
