@@ -92,18 +92,6 @@ public class DishList extends BaseActivity {
 				startActivity(intent);
 			}
 		});
-
-		// listview.setRecyclerListener(new RecyclerListener() {
-		// @Override
-		// public void onMovedToScrapHeap(View view) {
-		// // Release strong reference when a view is recycled
-		// final ImageView imageView = (ImageView) view.findViewById(R.id.img);
-		// if (imageView != null) {
-		// MLog.d("========= Remove image bitmap");
-		// imageView.setImageBitmap(null);
-		// }
-		// }
-		// });
 	}
 
 	@Override
