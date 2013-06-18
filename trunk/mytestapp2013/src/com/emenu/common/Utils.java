@@ -7,10 +7,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 
 import android.os.Environment;
 
 public class Utils {
+
+	private static DecimalFormat numberFormat = new DecimalFormat("####.00");
 
 	public static String loadTitle() {
 		String title = null;
@@ -44,8 +47,8 @@ public class Utils {
 		}
 		File data = new File(Environment.getExternalStorageDirectory().getPath() + Constants.DATA);
 		if (!data.exists()) {
-			return "The data is NOT ready! Copy the data to " + Environment.getExternalStorageDirectory().getPath()
-					+ Constants.DATA + " before starting the app";
+			return "The data is NOT ready! Copy the data to " + Environment.getExternalStorageDirectory().getPath() + Constants.DATA
+					+ " before starting the app";
 		}
 
 		data = new File(XmlUtils.getInstance().getMainMenuXml());
@@ -62,7 +65,11 @@ public class Utils {
 
 	}
 
+	public static String formatPriceWithUnit(float price) {
+		return Constants.DEFAULT_CURRENCY_UNIT + numberFormat.format(price);
+	}
+
 	public static String formatPrice(float price) {
-		return Constants.DEFAULT_CURRENCY_UNIT + price;
+		return numberFormat.format(price);
 	}
 }

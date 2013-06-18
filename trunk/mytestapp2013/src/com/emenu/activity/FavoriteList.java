@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.emenu.R;
 import com.emenu.adapter.FavoriteListAdapter;
 import com.emenu.common.Order;
+import com.emenu.common.Utils;
 
 public class FavoriteList extends BaseActivity {
 
@@ -62,7 +63,7 @@ public class FavoriteList extends BaseActivity {
 
 	public void updateTotalPrice() {
 		TextView totalPrice = (TextView) findViewById(R.id.txtTotalPrice);
-		totalPrice.setText(String.valueOf(Order.getInstance().getTotalPrice()));
+		totalPrice.setText(Utils.formatPrice(Order.getInstance().getTotalPrice()));
 	}
 
 }

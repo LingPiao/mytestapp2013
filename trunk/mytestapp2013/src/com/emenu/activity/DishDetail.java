@@ -17,6 +17,7 @@ import android.widget.VideoView;
 import com.emenu.R;
 import com.emenu.common.Constants;
 import com.emenu.common.Order;
+import com.emenu.common.Utils;
 import com.emenu.common.XmlUtils;
 import com.emenu.models.Dish;
 
@@ -80,7 +81,7 @@ public class DishDetail extends BaseActivity {
 		});
 
 		TextView price = (TextView) findViewById(R.id.price);
-		price.setText(String.valueOf(dish.getPrice()));
+		price.setText(Utils.formatPrice((dish.getPrice())));
 	}
 
 	public class MyWebChromeClient extends WebChromeClient {
