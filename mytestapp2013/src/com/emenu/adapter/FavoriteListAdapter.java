@@ -32,11 +32,28 @@ public class FavoriteListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final OrderItem oi = orderItems.get(position);
-		View rowView = inflater.inflate(R.layout.favorite_row, parent, false);
-		fillView(position, oi, rowView);
+		FavoriteViewHolder fvh = null;
+		if (convertView == null) {
+			convertView = inflater.inflate(R.layout.favorite_row, parent, false);
+			fvh = new FavoriteViewHolder(convertView);
+			convertView.setTag(fvh);
+		} else {
+			fvh = (FavoriteViewHolder) convertView.getTag();
+		}
+		fillData(position, oi, fvh);
+		return convertView;
+	}
 
-		ImageView ivRemove = (ImageView) rowView.findViewById(R.id.removeItem);
-		ivRemove.setOnClickListener(new OnClickListener() {
+	private void fillData(int position, final OrderItem oi, FavoriteViewHolder fvh) {
+		Dish dish = oi.getDish();
+		fvh.sn.setText(String.valueOf(position + 1));
+		fvh.dn.setText(dish.getName());
+		fvh.pr.setText(String.valueOf(dish.getPrice()));
+		fvh.am.setText(String.valueOf(oi.getAmount()));
+		fvh.sm.setText(String.valueOf(oi.getAmount() * dish.getPrice()));
+
+		// Add event listeners for image buttons
+		fvh.ivRemove.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Order.getInstance().remove(oi);
@@ -45,8 +62,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 			}
 		});
 
-		ImageView ivMinus = (ImageView) rowView.findViewById(R.id.minus);
-		ivMinus.setOnClickListener(new OnClickListener() {
+		fvh.ivMinus.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				oi.decline();
@@ -55,8 +71,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 			}
 		});
 
-		ImageView ivAdd = (ImageView) rowView.findViewById(R.id.add);
-		ivAdd.setOnClickListener(new OnClickListener() {
+		fvh.ivAdd.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				oi.rise();
@@ -64,22 +79,6 @@ public class FavoriteListAdapter extends BaseAdapter {
 				listActivity.updateTotalPrice();
 			}
 		});
-		return rowView;
-	}
-
-	private void fillView(int position, final OrderItem oi, View rowView) {
-		Dish dish = oi.getDish();
-		TextView sn = (TextView) rowView.findViewById(R.id.favorite_row_sn);
-		TextView dn = (TextView) rowView.findViewById(R.id.favorite_row_dishName);
-		TextView pr = (TextView) rowView.findViewById(R.id.favorite_row_price);
-		TextView am = (TextView) rowView.findViewById(R.id.favorite_row_amount);
-		TextView sm = (TextView) rowView.findViewById(R.id.favorite_row_sum);
-
-		sn.setText(String.valueOf(position + 1));
-		dn.setText(dish.getName());
-		pr.setText(String.valueOf(dish.getPrice()));
-		am.setText(String.valueOf(oi.getAmount()));
-		sm.setText(String.valueOf(oi.getAmount() * dish.getPrice()));
 	}
 
 	@Override
@@ -95,5 +94,28 @@ public class FavoriteListAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int posistion) {
 		return orderItems.get(posistion).getDish().getId();
+	}
+
+}
+
+class FavoriteViewHolder {
+	TextView sn;
+	TextView dn;
+	TextView pr;
+	TextView am;
+	TextView sm;
+	ImageView ivRemove;
+	ImageView ivMinus;
+	ImageView ivAdd;
+
+	public FavoriteViewHolder(View view) {
+		sn = (TextView) view.findViewById(R.id.favorite_row_sn);
+		dn = (TextView) view.findViewById(R.id.favorite_row_dishName);
+		pr = (TextView) view.findViewById(R.id.favorite_row_price);
+		am = (TextView) view.findViewById(R.id.favorite_row_amount);
+		sm = (TextView) view.findViewById(R.id.favorite_row_sum);
+		ivRemove = (ImageView) view.findViewById(R.id.removeItem);
+		ivMinus = (ImageView) view.findViewById(R.id.minus);
+		ivAdd = (ImageView) view.findViewById(R.id.add);
 	}
 }
