@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.emenu.R;
 import com.emenu.activity.FavoriteList;
 import com.emenu.common.Order;
+import com.emenu.common.Utils;
 import com.emenu.models.Dish;
 import com.emenu.models.OrderItem;
 
@@ -48,9 +49,9 @@ public class FavoriteListAdapter extends BaseAdapter {
 		Dish dish = oi.getDish();
 		fvh.sn.setText(String.valueOf(position + 1));
 		fvh.dn.setText(dish.getName());
-		fvh.pr.setText(String.valueOf(dish.getPrice()));
+		fvh.pr.setText(Utils.formatPrice(dish.getPrice()));
 		fvh.am.setText(String.valueOf(oi.getAmount()));
-		fvh.sm.setText(String.valueOf(oi.getAmount() * dish.getPrice()));
+		fvh.sm.setText(Utils.formatPrice(oi.getAmount() * dish.getPrice()));
 
 		// Add event listeners for image buttons
 		fvh.ivRemove.setOnClickListener(new OnClickListener() {

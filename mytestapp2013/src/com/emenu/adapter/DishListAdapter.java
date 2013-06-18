@@ -40,7 +40,7 @@ public class DishListAdapter extends BaseAdapter {
 		BitmapLoader.getInstance().boundImage(vh.getImgView(), d.getImage());
 		vh.getNameView().setText(d.getName());
 		vh.getDescView().setText(d.getIntroduction());
-		vh.getPriceView().setText(Utils.formatPrice(d.getPrice()));
+		vh.getPriceView().setText(Utils.formatPriceWithUnit(d.getPrice()));
 
 		return convertView;
 	}
