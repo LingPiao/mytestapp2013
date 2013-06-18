@@ -9,21 +9,25 @@
         android:layout_height="wrap_content"
         android:stretchColumns="4" >
 
-        <TableRow>
+        <TableRow
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal" >
 
             <TextView
                 android:id="@+id/hd_sn"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dish_list_padding"
-                android:text="@string/favorite_hd_sn" />
+                android:text="@string/favorite_hd_sn"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/hd_dishName"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dish_list_padding"
-                android:text="@string/favorite_hd_dishName" />
+                android:text="@string/favorite_hd_dishName"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/hd_price"
@@ -31,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding"
-                android:text="@string/favorite_hd_price" />
+                android:text="@string/favorite_hd_price"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/hd_amount"
@@ -39,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding"
-                android:text="@string/favorite_hd_amount" />
+                android:text="@string/favorite_hd_amount"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/hd_sum"
@@ -47,12 +53,13 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding"
-                android:text="@string/favorite_hd_sum" />
+                android:text="@string/favorite_hd_sum"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/hd_operation"
                 android:layout_width="80dp"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:gravity="right" />
         </TableRow>
     </TableLayout>
