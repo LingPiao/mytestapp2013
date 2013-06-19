@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -24,6 +25,7 @@ import com.emenu.models.Dish;
 public class DishDetail extends BaseActivity {
 
 	private MyWebChromeClient myChromeClient = null;
+	private WebView mWebView = null;
 
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -37,7 +39,7 @@ public class DishDetail extends BaseActivity {
 
 		String url = "file://" + XmlUtils.getInstance().getPath("/" + dish.getFile());
 
-		WebView mWebView = (WebView) findViewById(R.id.dishView);
+		mWebView = (WebView) findViewById(R.id.dishView);
 		myChromeClient = new MyWebChromeClient();
 		mWebView.setWebChromeClient(myChromeClient);
 		// mWebView.setWebViewClient(new MyWebViewClient());
@@ -101,7 +103,8 @@ public class DishDetail extends BaseActivity {
 		}
 
 		public void stop() {
-			if (video != null) video.stopPlayback();
+			if (video != null)
+				video.stopPlayback();
 		}
 
 	}
@@ -109,17 +112,26 @@ public class DishDetail extends BaseActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		cleanWebView();
+	}
+
+	private void cleanWebView() {
 		if (myChromeClient != null) {
 			myChromeClient.stop();
+		}
+		if (mWebView != null) {
+			mWebView.setFocusable(false);
+			RelativeLayout layout = (RelativeLayout) findViewById(R.id.webViewlayout);
+			layout.removeView(mWebView);
+			mWebView.removeAllViews();
+			mWebView.destroy();
 		}
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if (myChromeClient != null) {
-			myChromeClient.stop();
-		}
+		cleanWebView();
 	}
 
 }
