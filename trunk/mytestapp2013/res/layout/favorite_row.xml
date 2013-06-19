@@ -7,12 +7,13 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="4" >
+        android:stretchColumns="5" >
 
-        <TableRow
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center" >
+        <TableRow android:paddingTop="10dp" >
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="40dp" />
 
             <TextView
                 android:id="@+id/favorite_row_sn"
@@ -28,7 +29,7 @@
 
             <TextView
                 android:id="@+id/favorite_row_price"
-                android:layout_width="100dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding" />
@@ -36,7 +37,7 @@
             <LinearLayout
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:gravity="center" >
+                android:gravity="right" >
 
                 <ImageView
                     android:id="@+id/minus"
@@ -47,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/favorite_row_amount"
-                    android:layout_width="30dp"
+                    android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="@dimen/dish_list_padding" />
