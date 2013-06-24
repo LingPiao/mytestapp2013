@@ -23,13 +23,13 @@
 
             <TextView
                 android:id="@+id/favorite_row_dishName"
-                android:layout_width="300dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dish_list_padding" />
 
             <TextView
                 android:id="@+id/favorite_row_price"
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding" />

@@ -31,21 +31,22 @@ public class DishList extends BaseActivity {
 
 	private Timer timer = null;
 
+	boolean isDataReady = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dish_list);
-
-		if (!checkEnv()) {
-			return;
-		}
-
+		isDataReady = checkEnv();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!isDataReady) {
+			return;
+		}
 		List<Dish> dishes = new ArrayList<Dish>();
 		List<Dish> specials = new ArrayList<Dish>();
 		boolean showSpecials = true;
