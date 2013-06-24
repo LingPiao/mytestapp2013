@@ -25,7 +25,7 @@
 
             <TextView
                 android:id="@+id/hd_dishName"
-                android:layout_width="300dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dish_list_padding"
                 android:text="@string/favorite_hd_dishName"
@@ -33,7 +33,7 @@
 
             <TextView
                 android:id="@+id/hd_price"
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="@dimen/dish_list_padding"

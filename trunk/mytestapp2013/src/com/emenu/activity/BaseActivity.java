@@ -63,7 +63,7 @@ public class BaseActivity extends Activity {
 		} else if (id == R.id.favorite) {
 			Intent intent = new Intent(BaseActivity.this, FavoriteList.class);
 			startActivity(intent);
-			//finish();
+			// finish();
 		} else if (id == R.id.about) {
 			msgbox("\t" + getString(R.string.aboutContent));
 			// Intent intent = new Intent(BaseActivity.this, About.class);
@@ -102,7 +102,7 @@ public class BaseActivity extends Activity {
 		String appPath = Environment.getExternalStorageDirectory().getPath();
 		MLog.d("Loaded tile:" + title);
 		if (title == null) {
-			msgbox("Loading title error,check " + appPath + Constants.TITLE_FILE, true);
+			msgbox("Loading title error", "Check " + appPath + Constants.TITLE_FILE, true);
 			return false;
 		}
 		setTitle(title);
@@ -120,7 +120,7 @@ public class BaseActivity extends Activity {
 		MLog.d("Checking data...");
 		String chkDataMsg = Utils.isDataReady();
 		if (chkDataMsg != null) {
-			msgbox(chkDataMsg);
+			msgbox("The data is NOT ready!", chkDataMsg);
 			return false;
 		}
 		MLog.d("Checking data passed.");
@@ -128,18 +128,25 @@ public class BaseActivity extends Activity {
 	}
 
 	protected void msgbox(String msg) {
-		msgbox(msg, false);
+		msgbox(null, msg, false);
 	}
 
-	private void msgbox(String msg, final boolean exitRequired) {
-		new AlertDialog.Builder(this).setTitle("Information").setMessage(msg)
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						if (exitRequired) {
-							finish();
-						}
-					}
-				}).show();
+	protected void msgbox(String title, String msg) {
+		msgbox(title, msg, false);
+	}
+
+	private void msgbox(String title, String msg, final boolean exitRequired) {
+		String t = "Information";
+		if (title != null) {
+			t = title;
+		}
+		new AlertDialog.Builder(this).setTitle(t).setMessage(msg).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				if (exitRequired) {
+					finish();
+				}
+			}
+		}).show();
 	}
 
 	protected String[] getCategory() {

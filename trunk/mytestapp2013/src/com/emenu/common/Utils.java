@@ -47,18 +47,17 @@ public class Utils {
 		}
 		File data = new File(Environment.getExternalStorageDirectory().getPath() + Constants.DATA);
 		if (!data.exists()) {
-			return "The data is NOT ready! Copy the data to " + Environment.getExternalStorageDirectory().getPath() + Constants.DATA
-					+ " before starting the app";
+			return "Copy the data to " + Environment.getExternalStorageDirectory().getPath() + Constants.DATA + " before starting the app";
 		}
 
 		data = new File(XmlUtils.getInstance().getMainMenuXml());
 		if (!data.exists()) {
-			return "The data is NOT ready! Missing file:" + XmlUtils.getInstance().getMainMenuXml();
+			return "Missing file:" + XmlUtils.getInstance().getMainMenuXml();
 		}
 
 		data = new File(XmlUtils.getInstance().getDishesXml());
 		if (!data.exists()) {
-			return "The data is NOT ready! Missing file:" + XmlUtils.getInstance().getDishesXml();
+			return "Missing file:" + XmlUtils.getInstance().getDishesXml();
 		}
 
 		return errorMsg;
