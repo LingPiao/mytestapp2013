@@ -47,6 +47,8 @@ public class DishDetail extends BaseActivity {
 		mWebView.getSettings().setPluginState(PluginState.ON);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.getSettings().setUseWideViewPort(true);
+		//mWebView.getSettings().setSupportZoom(false);
+		mWebView.setInitialScale(100);
 		mWebView.loadUrl(url);
 
 		final TextView amount = (TextView) findViewById(R.id.amount);
