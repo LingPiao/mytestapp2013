@@ -65,7 +65,7 @@ public class BaseActivity extends Activity {
 			startActivity(intent);
 			// finish();
 		} else if (id == R.id.about) {
-			msgbox("\t" + getString(R.string.aboutContent));
+			msgbox("About", "\n\n\t\t\t\t\t" + getString(R.string.aboutContent)+"\n\n");
 			// Intent intent = new Intent(BaseActivity.this, About.class);
 			// startActivity(intent);
 		} else if (id == R.id.language) {
@@ -77,7 +77,8 @@ public class BaseActivity extends Activity {
 					Intent intent = new Intent(BaseActivity.this, DishList.class);
 					String lan = Languages.valueOf(item).name();
 					MLog.d("PutExtra data[selectedLanguage=" + lan + "]");
-					intent.putExtra(Constants.SELECTED_LANGUAGE_KEY, item);
+					// intent.putExtra(Constants.SELECTED_LANGUAGE_KEY, item);
+					XmlUtils.getInstance().setLanguage(lan);
 					startActivity(intent);
 					finish();
 				}
@@ -110,12 +111,7 @@ public class BaseActivity extends Activity {
 		XmlUtils.build(appPath);
 
 		// Set Language
-		Bundle b = getIntent().getExtras();
-		if (b != null) {
-			int lanIndex = b.getInt(Constants.SELECTED_LANGUAGE_KEY);
-			selectedLanguage = lanIndex;
-			XmlUtils.getInstance().setLanguage(Languages.valueOf(lanIndex).name());
-		}
+		selectedLanguage = Languages.valueOf(XmlUtils.getInstance().getLanguage()).ordinal();
 
 		MLog.d("Checking data...");
 		String chkDataMsg = Utils.isDataReady();
