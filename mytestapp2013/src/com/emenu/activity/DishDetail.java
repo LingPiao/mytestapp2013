@@ -31,24 +31,28 @@ public class DishDetail extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	protected void onResume() {
 		setContentView(R.layout.dish_detail);
-
-		final Dish dish = (Dish) getIntent().getSerializableExtra(Constants.DISH_KEY);
-
-		setTitle(dish.getName());
-
-		String url = "file://" + XmlUtils.getInstance().getPath("/" + dish.getFile());
+		super.onResume();
 
 		mWebView = (WebView) findViewById(R.id.dishView);
 		myChromeClient = new MyWebChromeClient();
 		mWebView.setWebChromeClient(myChromeClient);
 		// mWebView.setWebViewClient(new MyWebViewClient());
-		mWebView.getSettings().setJavaScriptEnabled(true);
+		// mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setPluginState(PluginState.ON);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
-		mWebView.getSettings().setUseWideViewPort(true);
-		//mWebView.getSettings().setSupportZoom(false);
-		mWebView.setInitialScale(100);
+		mWebView.getSettings().setUseWideViewPort(false);
+		// mWebView.getSettings().setSupportZoom(false);
+		// mWebView.setInitialScale(0);
+
+		final Dish dish = (Dish) getIntent().getSerializableExtra(Constants.DISH_KEY);
+		setTitle(dish.getName());
+		String url = "file://" + XmlUtils.getInstance().getPath("/" + dish.getFile());
+
 		mWebView.loadUrl(url);
 
 		final TextView amount = (TextView) findViewById(R.id.amount);
@@ -105,8 +109,7 @@ public class DishDetail extends BaseActivity {
 		}
 
 		public void stop() {
-			if (video != null)
-				video.stopPlayback();
+			if (video != null) video.stopPlayback();
 		}
 
 	}
