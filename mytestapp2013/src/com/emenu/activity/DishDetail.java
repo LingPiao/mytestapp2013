@@ -41,17 +41,21 @@ public class DishDetail extends BaseActivity {
 		mWebView = (WebView) findViewById(R.id.dishView);
 		myChromeClient = new MyWebChromeClient();
 		mWebView.setWebChromeClient(myChromeClient);
-		// mWebView.setWebViewClient(new MyWebViewClient());
+		// mWebView.setWebViewClient(new WebViewClient());
 		// mWebView.getSettings().setJavaScriptEnabled(true);
-		mWebView.getSettings().setPluginState(PluginState.ON);
+		mWebView.getSettings().setPluginState(PluginState.OFF);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.getSettings().setUseWideViewPort(false);
+		//mWebView.getSettings().setDomStorageEnabled(true);
+		mWebView.getSettings().setAllowFileAccess(true);
 		// mWebView.getSettings().setSupportZoom(false);
 		// mWebView.setInitialScale(0);
 
 		final Dish dish = (Dish) getIntent().getSerializableExtra(Constants.DISH_KEY);
 		setTitle(dish.getName());
 		String url = "file://" + XmlUtils.getInstance().getPath("/" + dish.getFile());
+
+		// String url="http://www.quirksmode.org/html5/tests/video.html";
 
 		mWebView.loadUrl(url);
 
