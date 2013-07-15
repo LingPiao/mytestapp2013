@@ -17,7 +17,7 @@ import android.widget.VideoView;
 
 import com.emenu.R;
 import com.emenu.common.Constants;
-import com.emenu.common.Order;
+import com.emenu.common.OrderUtil;
 import com.emenu.common.Utils;
 import com.emenu.common.XmlUtils;
 import com.emenu.models.Dish;
@@ -46,7 +46,7 @@ public class DishDetail extends BaseActivity {
 		mWebView.getSettings().setPluginState(PluginState.OFF);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.getSettings().setUseWideViewPort(false);
-		//mWebView.getSettings().setDomStorageEnabled(true);
+		// mWebView.getSettings().setDomStorageEnabled(true);
 		mWebView.getSettings().setAllowFileAccess(true);
 		// mWebView.getSettings().setSupportZoom(false);
 		// mWebView.setInitialScale(0);
@@ -65,7 +65,7 @@ public class DishDetail extends BaseActivity {
 		add.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Order.getInstance().add(dish, Integer.parseInt(amount.getText().toString()));
+				OrderUtil.getInstance().getOrder().add(dish, Integer.parseInt(amount.getText().toString()));
 				Toast.makeText(DishDetail.this, dish.getName() + " added to Favorite list", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -113,7 +113,8 @@ public class DishDetail extends BaseActivity {
 		}
 
 		public void stop() {
-			if (video != null) video.stopPlayback();
+			if (video != null)
+				video.stopPlayback();
 		}
 
 	}

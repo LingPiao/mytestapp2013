@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.emenu.R;
 import com.emenu.activity.FavoriteList;
-import com.emenu.common.Order;
+import com.emenu.common.OrderUtil;
 import com.emenu.common.Utils;
 import com.emenu.models.Dish;
 import com.emenu.models.OrderItem;
@@ -25,7 +25,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 	private FavoriteList listActivity = null;
 
 	public FavoriteListAdapter(FavoriteList activity) {
-		this.orderItems = Order.getInstance().getOrderItems();
+		this.orderItems = OrderUtil.getInstance().getOrder().getOrderItems();
 		this.listActivity = activity;
 		this.inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -57,7 +57,7 @@ public class FavoriteListAdapter extends BaseAdapter {
 		fvh.ivRemove.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Order.getInstance().remove(oi);
+				OrderUtil.getInstance().getOrder().remove(oi);
 				FavoriteListAdapter.this.notifyDataSetChanged();
 				listActivity.updateTotalPrice();
 			}

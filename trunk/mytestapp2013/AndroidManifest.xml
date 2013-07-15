@@ -44,6 +44,10 @@
             android:name="com.emenu.activity.About"
             android:label="@string/about" >
         </activity>
+        <activity
+            android:name="com.emenu.activity.OrderHis"
+            android:label="@string/title_activity_order_his" >
+        </activity>
     </application>
 
 </manifest>

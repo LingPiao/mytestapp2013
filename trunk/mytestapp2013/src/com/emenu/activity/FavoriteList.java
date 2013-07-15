@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.emenu.R;
 import com.emenu.adapter.FavoriteListAdapter;
-import com.emenu.common.Order;
+import com.emenu.common.OrderUtil;
 import com.emenu.common.Utils;
 
 public class FavoriteList extends BaseActivity {
@@ -33,7 +33,7 @@ public class FavoriteList extends BaseActivity {
 		cancle.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Order.getInstance().clear();
+				OrderUtil.getInstance().getOrder().clear();
 				FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
 			}
 		});
@@ -43,13 +43,14 @@ public class FavoriteList extends BaseActivity {
 		submit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (Order.getInstance().getOrderItems() == null || Order.getInstance().getOrderItems().size() < 1) {
+				if (OrderUtil.getInstance().getOrder().getOrderItems() == null
+						|| OrderUtil.getInstance().getOrder().getOrderItems().size() < 1) {
 					FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
 					finish();
 				} else {
-					boolean r = Order.getInstance().save(tbNo.getText().toString());
+					boolean r = OrderUtil.getInstance().save(tbNo.getText().toString());
 					if (r) {
-						Order.getInstance().clear();
+						OrderUtil.getInstance().getOrder().clear();
 						FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
 						finish();
 					} else {
@@ -59,11 +60,19 @@ public class FavoriteList extends BaseActivity {
 			}
 		});
 
+		Button his = (Button) findViewById(R.id.btnHis);
+		his.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				FavoriteList.this.startActivity(new Intent(FavoriteList.this, OrderHis.class));
+			}
+		});
+
 	}
 
 	public void updateTotalPrice() {
 		TextView totalPrice = (TextView) findViewById(R.id.txtTotalPrice);
-		totalPrice.setText(Utils.formatPrice(Order.getInstance().getTotalPrice()));
+		totalPrice.setText(Utils.formatPrice(OrderUtil.getInstance().getOrder().getTotalPrice()));
 	}
 
 }
