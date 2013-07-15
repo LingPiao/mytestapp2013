@@ -64,6 +64,11 @@ public class Utils {
 
 	}
 
+	public static boolean isExists(String file) {
+		File f = new File(file);
+		return f.exists();
+	}
+
 	public static String formatPriceWithUnit(float price) {
 		return Constants.DEFAULT_CURRENCY_UNIT + numberFormat.format(price);
 	}

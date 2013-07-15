@@ -1,5 +1,7 @@
 package com.emenu.activity;
 
+import java.io.Serializable;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +39,19 @@ public class DishDetail extends BaseActivity {
 	protected void onResume() {
 		setContentView(R.layout.dish_detail);
 		super.onResume();
+		Serializable sobj = getIntent().getSerializableExtra(Constants.DISH_KEY);
+		if (sobj == null) {
+			msgbox("Data missing");
+			return;
+		}
+		final Dish dish = (Dish) sobj;
+		String dishFile = XmlUtils.getInstance().getPath("/" + dish.getFile());
+		if (!Utils.isExists(dishFile)) {
+			msgbox("Data Missing", "File[" + dishFile + "] not found!");
+			return;
+		}
+		setTitle(dish.getName());
+		String url = "file://" + dishFile;
 
 		mWebView = (WebView) findViewById(R.id.dishView);
 		myChromeClient = new MyWebChromeClient();
@@ -50,10 +65,6 @@ public class DishDetail extends BaseActivity {
 		mWebView.getSettings().setAllowFileAccess(true);
 		// mWebView.getSettings().setSupportZoom(false);
 		// mWebView.setInitialScale(0);
-
-		final Dish dish = (Dish) getIntent().getSerializableExtra(Constants.DISH_KEY);
-		setTitle(dish.getName());
-		String url = "file://" + XmlUtils.getInstance().getPath("/" + dish.getFile());
 
 		// String url="http://www.quirksmode.org/html5/tests/video.html";
 
@@ -113,8 +124,7 @@ public class DishDetail extends BaseActivity {
 		}
 
 		public void stop() {
-			if (video != null)
-				video.stopPlayback();
+			if (video != null) video.stopPlayback();
 		}
 
 	}
