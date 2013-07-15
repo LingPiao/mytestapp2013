@@ -4,7 +4,7 @@
     <string name="app_name">eMenu</string>
     <string name="about">About</string>
     <string name="category">Category</string>
-    <string name="favorite">Favorite</string>
+    <string name="myOrder">MyOrder</string>
     <string name="language">Language</string>
     <string name="title_activity_dish_detail">DishDetail</string>
     <string name="action_settings">Settings</string>
@@ -19,12 +19,21 @@
     <!-- end of header -->
 
 
-    <!-- favorite list -->
-    <string name="title_activity_favorite_list">FavoriteList</string>
+    <!-- order list -->
+    <string name="title_activity_favorite_list">MyOrder</string>
     <string name="btnCancle">Cancle</string>
+    <string name="btnHis">History</string>
     <string name="btnSubmit">Submit</string>
-    <!-- end of favorite list -->
+    <!-- end of order list -->
 
-    <string name="aboutContent">Version: V1.0</string>
+
+    <!-- order history -->
+    <string name="title_activity_order_his">Order History</string>
+    <string name="btnPrevious">Previous</string>
+    <string name="btnNext">Next</string>
+    <!-- end of order list -->
+
+    <string name="aboutContent">Version: V1.1.0</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

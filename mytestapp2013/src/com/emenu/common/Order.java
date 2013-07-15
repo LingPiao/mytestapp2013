@@ -1,29 +1,16 @@
 package com.emenu.common;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import android.os.Environment;
 
 import com.emenu.models.Dish;
 import com.emenu.models.OrderItem;
 
 public class Order {
-	private static Order instance = null;
+
 	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
-
-	private Order() {
-	}
-
-	public static Order getInstance() {
-		if (instance == null) {
-			instance = new Order();
-		}
-		return instance;
-	}
+	private String tableNo;
+	private String orderDate;
 
 	public void add(OrderItem newItem) {
 		OrderItem ordered = find(newItem);
@@ -83,52 +70,28 @@ public class Order {
 		return t;
 	}
 
+	public String getTableNo() {
+		return tableNo;
+	}
+
+	public void setTableNo(String tableNo) {
+		this.tableNo = tableNo;
+	}
+
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
 	}
 
-	public boolean save(String tableNumber) {
-		boolean r = false;
-		if (orderItems.isEmpty()) {
-			return r;
-		}
-
-		FileWriter out = null;
-		try {
-			String appPath = Environment.getExternalStorageDirectory().getPath();
-
-			File logFile = new File(appPath + Constants.ORDER_LOG);
-			if (logFile.length() > Constants.MAX_LOG_FILE_SIZE) {
-				File logBak = new File(appPath + Constants.ORDER_LOG_BAK);
-				logBak.delete();
-				logFile.renameTo(logBak);
-				logFile = new File(appPath + Constants.ORDER_LOG);
-			}
-			if (logFile.exists()) {
-				out = new FileWriter(logFile, true);
-			} else {
-				out = new FileWriter(logFile);
-			}
-			StringBuilder sb = new StringBuilder();
-			sb.append(tableNumber).append("||");
-			for (OrderItem it : orderItems) {
-				sb.append(it.getDish().getName()).append("|").append(it.getAmount()).append("|").append(it.getTotalPrice())
-						.append("||");
-			}
-			sb.append("\n");
-			out.write(sb.toString());
-			out.close();
-			r = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-				}
-			}
-		}
-		return r;
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
 }
