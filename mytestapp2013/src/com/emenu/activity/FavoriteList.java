@@ -34,7 +34,7 @@ public class FavoriteList extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				OrderUtil.getInstance().getOrder().clear();
-				FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
+				FavoriteList.this.startActivity(new Intent(FavoriteList.this, Main.class));
 			}
 		});
 
@@ -45,13 +45,13 @@ public class FavoriteList extends BaseActivity {
 			public void onClick(View arg0) {
 				if (OrderUtil.getInstance().getOrder().getOrderItems() == null
 						|| OrderUtil.getInstance().getOrder().getOrderItems().size() < 1) {
-					FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
+					FavoriteList.this.startActivity(new Intent(FavoriteList.this, Main.class));
 					finish();
 				} else {
 					boolean r = OrderUtil.getInstance().save(tbNo.getText().toString());
 					if (r) {
 						OrderUtil.getInstance().getOrder().clear();
-						FavoriteList.this.startActivity(new Intent(FavoriteList.this, DishList.class));
+						FavoriteList.this.startActivity(new Intent(FavoriteList.this, Main.class));
 						finish();
 					} else {
 						Toast.makeText(FavoriteList.this, "Save order fail, retry later", Toast.LENGTH_SHORT).show();
