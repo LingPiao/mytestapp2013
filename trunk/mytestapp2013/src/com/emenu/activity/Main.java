@@ -17,9 +17,10 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.emenu.R;
-import com.emenu.adapter.DishListAdapter;
+import com.emenu.adapter.CategoryListAdapter;
 import com.emenu.common.BitmapLoader;
 import com.emenu.common.Constants;
 import com.emenu.common.MLog;
@@ -27,18 +28,19 @@ import com.emenu.models.Dish;
 
 public class Main extends BaseActivity {
 
-	private DishListAdapter adapter = null;
-
+	private CategoryListAdapter adapter = null;
+	private List<com.emenu.models.MenuItem> menus = new ArrayList<com.emenu.models.MenuItem>();
+	private TextView speListTitle = null;
 	private Timer timer = null;
 
 	boolean isDataReady = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		isDataReady = checkEnv();
+		speListTitle = (TextView) findViewById(R.id.speListTitle);
 	}
 
 	@Override
@@ -49,47 +51,29 @@ public class Main extends BaseActivity {
 		}
 		List<Dish> dishes = new ArrayList<Dish>();
 		List<Dish> specials = new ArrayList<Dish>();
-		boolean showSpecials = true;
-
-		if (getIntent() != null && getIntent().getExtras() != null) {
-			Object o = (com.emenu.models.MenuItem) getIntent().getSerializableExtra(Constants.SELECTED_MENU_ITEM_KEY);
-			if (o != null) {
-				com.emenu.models.MenuItem selectedMi = (com.emenu.models.MenuItem) o;
-				selectedId = selectedMi.getId();
-				if (selectedId > 0) {
-					selectedCategory = selectedMi.getName();
-				}
-			}
-			MLog.d("GetExtra data[selectedId=" + selectedId + "]");
-		}
-		if (selectedId > 0) {
-			dishes = dao.loadDishes(selectedId);
-			showSpecials = false;
-		} else {
-			dishes = dao.loadDishes();
-		}
-
+		menus = dao.loadMenus();
+		dishes = dao.loadDishes();
 		if (dishes.size() < 1) {
-			showSpecials = false;
 			msgbox("No Dishes found under Category[ " + selectedCategory + "]");
+			return;
+		}
+		specials = getSpecials(dishes);
+		if (specials.size() > 0) {
+			showSpecials(specials);
+			speListTitle.setVisibility(View.VISIBLE);
+		} else {
+			speListTitle.setVisibility(View.GONE);
 		}
 
-		if (showSpecials) {
-			specials = getSpecials(dishes);
-			if (specials.size() > 0) {
-				showSpecials(specials);
-			}
-		}
-
-		adapter = new DishListAdapter(this, dishes);
-		final ListView listview = (ListView) findViewById(R.id.dishList);
+		adapter = new CategoryListAdapter(this, menus);
+		final ListView listview = (ListView) findViewById(R.id.menuList);
 		listview.setAdapter(adapter);
 		listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-				final Dish dish = (Dish) parent.getItemAtPosition(position);
-				Intent intent = new Intent(Main.this, DishDetail.class);
-				intent.putExtra(Constants.DISH_KEY, dish);
+				final com.emenu.models.MenuItem mi = (com.emenu.models.MenuItem) parent.getItemAtPosition(position);
+				Intent intent = new Intent(Main.this, DishList.class);
+				intent.putExtra(Constants.SELECTED_MENU_ITEM_KEY, mi);
 				startActivity(intent);
 			}
 		});
@@ -109,14 +93,10 @@ public class Main extends BaseActivity {
 	}
 
 	private void showSpecials(List<Dish> specials) {
-
 		List<Dish> speList = new ArrayList<Dish>();
 		for (Dish dish : specials) {
 			speList.add(dish);
 		}
-		// for (Dish dish : specials) {
-		// speList.add(dish);
-		// }
 		final HorizontalScrollView speHsv = (HorizontalScrollView) findViewById(R.id.speHsv);
 		speHsv.setVisibility(View.VISIBLE);
 
@@ -149,7 +129,7 @@ public class Main extends BaseActivity {
 
 			public void run() {
 				// MLog.d("==========Scrolling ...");
-				speHsv.smoothScrollTo(i * 300, 0);
+				speHsv.smoothScrollTo(i * 220 + 3, 0);
 				if (i >= count - 3) {
 					i = 0;
 				} else {
@@ -165,7 +145,6 @@ public class Main extends BaseActivity {
 
 	private List<Dish> getSpecials(List<Dish> dishes) {
 		List<Dish> s = new ArrayList<Dish>();
-		List<com.emenu.models.MenuItem> menus = dao.loadMenus();
 		List<Long> speIds = new ArrayList<Long>();
 		for (com.emenu.models.MenuItem mi : menus) {
 			if (mi.isSpecial()) {

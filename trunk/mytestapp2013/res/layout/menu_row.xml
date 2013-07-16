@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/dish_list_padding"
+    android:paddingLeft="@dimen/dish_list_padding"
+    android:paddingRight="@dimen/dish_list_padding"
+    android:paddingTop="@dimen/dish_list_padding"
+    tools:context=".DishList" >
+
+    <TextView
+        android:id="@+id/menuName"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dish_list_padding"
+        android:text="TextView"
+        android:textSize="22dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

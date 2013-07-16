@@ -74,7 +74,7 @@ public class BaseActivity extends Activity {
 			builder.setSingleChoiceItems(getLanguages(), selectedLanguage, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int item) {
 					dialog.dismiss();
-					Intent intent = new Intent(BaseActivity.this, DishList.class);
+					Intent intent = new Intent(BaseActivity.this, Main.class);
 					String lan = Languages.valueOf(item).name();
 					MLog.d("PutExtra data[selectedLanguage=" + lan + "]");
 					// intent.putExtra(Constants.SELECTED_LANGUAGE_KEY, item);
