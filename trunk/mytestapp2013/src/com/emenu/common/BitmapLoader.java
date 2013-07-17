@@ -25,6 +25,8 @@ public class BitmapLoader {
 	}
 
 	private Map<String, Bitmap> bitmaps = new HashMap<String, Bitmap>();
+	private Map<String, Long> addedDate = new HashMap<String, Long>();
+	private static final int MAX_CACHE_SIZE = 20;
 
 	public void boundImage(ImageView iv, String file) {
 		Bitmap bm = bitmaps.get(file);
@@ -54,7 +56,7 @@ public class BitmapLoader {
 				if (imgf.exists()) {
 					bm = BitmapFactory.decodeFile(imgf.getAbsolutePath(), opt);
 					iv.setImageBitmap(bm);
-					bitmaps.put(file, bm);
+					cacheBitmap(file, bm);
 				} else {
 					iv.setImageResource(R.drawable.default_images);
 				}
@@ -78,5 +80,32 @@ public class BitmapLoader {
 			}
 		}
 		bitmaps.clear();
+		addedDate.clear();
+	}
+
+	private void cacheBitmap(String fn, Bitmap bm) {
+		if (bitmaps.size() >= MAX_CACHE_SIZE) {
+			evict();
+		}
+		addedDate.put(fn, System.currentTimeMillis());
+		bitmaps.put(fn, bm);
+	}
+
+	private void evict() {
+		Long d = System.currentTimeMillis();
+		String fn = "";
+		for (String k : addedDate.keySet()) {
+			if (addedDate.get(k).longValue() < d.longValue()) {
+				d = addedDate.get(k);
+				fn = k;
+			}
+		}
+		Bitmap bm = bitmaps.get(fn);
+		if (bm != null && !bm.isRecycled()) {
+			bm.recycle();
+			bm = null;
+		}
+		bitmaps.remove(fn);
+		addedDate.remove(fn);
 	}
 }
