@@ -64,10 +64,6 @@ public class BaseActivity extends Activity {
 			Intent intent = new Intent(BaseActivity.this, FavoriteList.class);
 			startActivity(intent);
 			// finish();
-		} else if (id == R.id.about) {
-			msgbox("About", "\n\n\t\t\t\t\t" + getString(R.string.aboutContent)+"\n\n");
-			// Intent intent = new Intent(BaseActivity.this, About.class);
-			// startActivity(intent);
 		} else if (id == R.id.language) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Chose your language");

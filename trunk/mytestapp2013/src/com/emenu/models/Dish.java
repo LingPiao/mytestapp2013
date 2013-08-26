@@ -15,6 +15,7 @@ public class Dish implements Serializable {
 	private float price;
 	private String introduction;
 	private String description;
+	private boolean recommended;
 
 	public long getId() {
 		return id;
@@ -88,11 +89,18 @@ public class Dish implements Serializable {
 		this.description = description;
 	}
 
+	public boolean isRecommended() {
+		return recommended;
+	}
+
+	public void setRecommended(boolean recommended) {
+		this.recommended = recommended;
+	}
+
 	@Override
 	public String toString() {
-		return "Dish [id=" + id + ", name=" + name + ", belongsTo=" + belongsTo + ", image=" + image + ", file=" + file
-				+ ", enabled=" + enabled + ", price=" + price + ", introduction=" + introduction + ", description="
-				+ description + "]";
+		return "Dish [id=" + id + ", name=" + name + ", belongsTo=" + belongsTo + ", image=" + image + ", file=" + file + ", enabled=" + enabled + ", price="
+				+ price + ", introduction=" + introduction + ", description=" + description + "]";
 	}
 
 }

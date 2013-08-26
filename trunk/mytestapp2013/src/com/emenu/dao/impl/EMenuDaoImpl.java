@@ -37,12 +37,6 @@ public class EMenuDaoImpl implements EMenuDao {
 						menu = new MenuItem();
 						menu.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 						menu.setName(xpp.getAttributeValue(null, "name"));
-						String strSpe = xpp.getAttributeValue(null, "isSpecial");
-						if (strSpe == null || "false".equals(strSpe)) {
-							menu.setSpecial(false);
-						} else {
-							menu.setSpecial(true);
-						}
 					}
 					// System.out.println("Start tag " + xpp.getName());
 				} else if (eventType == XmlPullParser.END_TAG) {
@@ -104,7 +98,9 @@ public class EMenuDaoImpl implements EMenuDao {
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// System.out.println("End tag " + xpp.getName());
 					if ("dish".equalsIgnoreCase(xpp.getName()) && dish != null) {
-						l.add(dish);
+						if (dish.isEnabled()) {
+							l.add(dish);
+						}
 						dish = null;
 					}
 				} else if (eventType == XmlPullParser.TEXT) {
@@ -154,7 +150,8 @@ public class EMenuDaoImpl implements EMenuDao {
 							dish.setBelongsTo(belongsTo);
 							dish.setImage(XmlUtils.getInstance().getPath("/" + xpp.getAttributeValue(null, "image")));
 							dish.setFile(xpp.getAttributeValue(null, "file"));
-							dish.setEnabled("true".equalsIgnoreCase(xpp.getAttributeValue(null, "enabled")) ? true : false);
+							dish.setEnabled(getBoolean(xpp.getAttributeValue(null, "enabled")));
+							dish.setRecommended(getBoolean(xpp.getAttributeValue(null, "recommended")));
 							dish.setPrice(Float.parseFloat(xpp.getAttributeValue(null, "price")));
 							MLog.d("Loaded Dish is:" + dish);
 						}
@@ -163,7 +160,9 @@ public class EMenuDaoImpl implements EMenuDao {
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// System.out.println("End tag " + xpp.getName());
 					if ("dish".equalsIgnoreCase(xpp.getName()) && dish != null && r) {
-						l.add(dish);
+						if (dish.isEnabled()) {
+							l.add(dish);
+						}
 						dish = null;
 						r = false;
 					}
@@ -184,6 +183,71 @@ public class EMenuDaoImpl implements EMenuDao {
 		}
 
 		return l;
+	}
+
+	@Override
+	public List<Dish> loadRecommendedDishes() {
+
+		List<Dish> l = new ArrayList<Dish>();
+		InputStream in = null;
+		try {
+			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			XmlPullParser xpp = factory.newPullParser();
+			in = new FileInputStream(XmlUtils.getInstance().getDishesXml());
+			xpp.setInput(in, "utf-8");
+			int eventType = xpp.getEventType();
+			Dish dish = null;
+			while (eventType != XmlPullParser.END_DOCUMENT) {
+				if (eventType == XmlPullParser.START_DOCUMENT) {
+					// System.out.println("Start document");
+				} else if (eventType == XmlPullParser.START_TAG) {
+					if ("dish".equalsIgnoreCase(xpp.getName())) {
+						boolean recommended = getBoolean(xpp.getAttributeValue(null, "recommended"));
+						if (recommended) {
+							dish = new Dish();
+							List<Long> belongsTo = XmlUtils.getIds(xpp.getAttributeValue(null, "belongsTo"));
+							dish.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
+							dish.setName(xpp.getAttributeValue(null, "name"));
+							dish.setBelongsTo(belongsTo);
+							dish.setImage(XmlUtils.getInstance().getPath("/" + xpp.getAttributeValue(null, "image")));
+							dish.setFile(xpp.getAttributeValue(null, "file"));
+							dish.setEnabled(getBoolean(xpp.getAttributeValue(null, "enabled")));
+							dish.setRecommended(recommended);
+							dish.setPrice(Float.parseFloat(xpp.getAttributeValue(null, "price")));
+							MLog.d("Loaded Dish is:" + dish);
+						}
+					}
+					// System.out.println("Start tag " + xpp.getName());
+				} else if (eventType == XmlPullParser.END_TAG) {
+					// System.out.println("End tag " + xpp.getName());
+					if ("dish".equalsIgnoreCase(xpp.getName()) && dish != null) {
+						l.add(dish);
+						dish = null;
+					}
+				} else if (eventType == XmlPullParser.TEXT) {
+					if (dish != null) {
+						dish.setIntroduction(xpp.getText());
+					}
+				}
+				eventType = xpp.next();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (in != null) try {
+				in.close();
+			} catch (IOException e) {
+			}
+		}
+		return l;
+	}
+
+	private boolean getBoolean(String value) {
+		if (value == null) {
+			return false;
+		}
+		return "true".equalsIgnoreCase(value) ? true : false;
 	}
 
 	@Override
