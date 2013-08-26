@@ -7,7 +7,6 @@ public class MenuItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private String name;
-	private boolean isSpecial;
 
 	public MenuItem() {
 		this.id = 0;
@@ -34,16 +33,8 @@ public class MenuItem implements Serializable {
 		this.name = name;
 	}
 
-	public boolean isSpecial() {
-		return isSpecial;
-	}
-
-	public void setSpecial(boolean isSpecial) {
-		this.isSpecial = isSpecial;
-	}
-
 	@Override
 	public String toString() {
-		return "MenuItem [id=" + id + ", name=" + name + ", isSpecial=" + isSpecial + "]";
+		return "MenuItem [id=" + id + ", name=" + name + "]";
 	}
 }

@@ -13,6 +13,8 @@ public interface EMenuDao {
 
 	List<Dish> loadDishes();
 
+	List<Dish> loadRecommendedDishes();
+
 	List<Dish> loadDishes(long menuItemId);
 
 	void saveMenu(MenuItem menuItem);

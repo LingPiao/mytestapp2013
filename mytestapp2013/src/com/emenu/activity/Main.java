@@ -30,7 +30,7 @@ public class Main extends BaseActivity {
 
 	private CategoryListAdapter adapter = null;
 	private List<com.emenu.models.MenuItem> menus = new ArrayList<com.emenu.models.MenuItem>();
-	private TextView speListTitle = null;
+	private TextView recommendedListTitle = null;
 	private Timer timer = null;
 
 	boolean isDataReady = false;
@@ -40,7 +40,7 @@ public class Main extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		isDataReady = checkEnv();
-		speListTitle = (TextView) findViewById(R.id.speListTitle);
+		recommendedListTitle = (TextView) findViewById(R.id.speListTitle);
 	}
 
 	@Override
@@ -57,12 +57,12 @@ public class Main extends BaseActivity {
 			msgbox("No Dishes found under Category[ " + selectedCategory + "]");
 			return;
 		}
-		specials = getSpecials(dishes);
+		specials = dao.loadRecommendedDishes();
 		if (specials.size() > 0) {
 			showSpecials(specials);
-			speListTitle.setVisibility(View.VISIBLE);
+			recommendedListTitle.setVisibility(View.VISIBLE);
 		} else {
-			speListTitle.setVisibility(View.GONE);
+			recommendedListTitle.setVisibility(View.GONE);
 		}
 
 		adapter = new CategoryListAdapter(this, menus);
@@ -107,14 +107,12 @@ public class Main extends BaseActivity {
 			ImageView img = new ImageView(this, null, R.style.SpecialImage);
 			BitmapLoader.getInstance().boundImage(img, dish.getImage());
 			img.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent(Main.this, DishDetail.class);
 					intent.putExtra(Constants.DISH_KEY, dish);
 					startActivity(intent);
 				}
-
 			});
 			LayoutParams lp = new LayoutParams(220, 220);
 			lp.setMargins(3, 3, 3, 3);
@@ -141,25 +139,6 @@ public class Main extends BaseActivity {
 			timer = new Timer("ScrollTimer");
 			timer.scheduleAtFixedRate(task, 1000, 2000);
 		}
-	}
-
-	private List<Dish> getSpecials(List<Dish> dishes) {
-		List<Dish> s = new ArrayList<Dish>();
-		List<Long> speIds = new ArrayList<Long>();
-		for (com.emenu.models.MenuItem mi : menus) {
-			if (mi.isSpecial()) {
-				speIds.add(mi.getId());
-			}
-		}
-		for (Dish d : dishes) {
-			List<Long> beLongsTo = d.getBelongsTo();
-			for (Long id : beLongsTo) {
-				if (speIds.contains(id)) {
-					s.add(d);
-				}
-			}
-		}
-		return s;
 	}
 
 }
