@@ -11,6 +11,13 @@
     <string name="action_settings">Settings</string>
     <string name="btnAdd">Add</string>
 
+    <!-- Cover -->
+    <string name="lanEnglish">English</string>
+    <string name="lanChinese">中文</string>
+    <string name="lanSwedish">Svensk</string>
+    <!-- End of Cover -->
+
+
     <!-- Main -->
     <string name="speListTitle">Recommended Dishes</string>
     <string name="ctListTitle">Category List</string>
@@ -42,5 +49,6 @@
 
     <string name="aboutContent">Version: V1.1.0</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_cover">Cover</string>
 
 </resources>
