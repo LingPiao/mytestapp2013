@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.emenu.R;
 import com.emenu.common.BitmapLoader;
@@ -19,13 +21,15 @@ public class Cover extends BaseActivity {
 	private Button btnZh;
 	private Button btnSw;
 	private Button btnEn;
-	private final Handler handler = new Handler();
+	private Handler handler;
 	private Runnable defaultChoise;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cover);
+		RelativeLayout layout = (RelativeLayout) findViewById(R.id.coverLayout);
+		layout.setBackground(getResources().getDrawable(R.drawable.cover_bg));
 
 		btnZh = (Button) findViewById(R.id.btnChinese);
 		btnSw = (Button) findViewById(R.id.btnSwedish);
@@ -34,8 +38,14 @@ public class Cover extends BaseActivity {
 		setAppTitle();
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
 	private void setLan(String lan) {
-		handler.removeCallbacks(defaultChoise);
+		if (handler != null && defaultChoise != null) handler.removeCallbacks(defaultChoise);
 		Intent intent = new Intent(Cover.this, Main.class);
 		String appPath = Environment.getExternalStorageDirectory().getPath();
 		XmlUtils.build(appPath);
@@ -69,13 +79,15 @@ public class Cover extends BaseActivity {
 			}
 		});
 
+		handler = new Handler();
 		defaultChoise = new Runnable() {
+			@Override
 			public void run() {
+				MLog.d("===================Using English as the efault Language");
 				setLan(Languages.en_US.name());
-				handler.postDelayed(this, 30000);
 			}
 		};
-
+		handler.postDelayed(defaultChoise, 10000);
 	}
 
 	@Override
@@ -88,5 +100,6 @@ public class Cover extends BaseActivity {
 		MLog.d("========Destory bitmaps");
 		super.onDestroy();
 		BitmapLoader.getInstance().recycleBitmaps();
+		if (handler != null && defaultChoise != null) handler.removeCallbacks(defaultChoise);
 	}
 }
