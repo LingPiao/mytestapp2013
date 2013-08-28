@@ -15,6 +15,7 @@ import com.emenu.R;
 import com.emenu.common.Constants;
 import com.emenu.common.Languages;
 import com.emenu.common.MLog;
+import com.emenu.common.OrderUtil;
 import com.emenu.common.Utils;
 import com.emenu.common.XmlUtils;
 import com.emenu.dao.EMenuDao;
@@ -66,17 +67,16 @@ public class BaseActivity extends Activity {
 			// finish();
 		} else if (id == R.id.language) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Chose your language");
-			builder.setSingleChoiceItems(getLanguages(), selectedLanguage, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int item) {
-					dialog.dismiss();
-					Intent intent = new Intent(BaseActivity.this, Main.class);
-					String lan = Languages.valueOf(item).name();
-					MLog.d("PutExtra data[selectedLanguage=" + lan + "]");
-					// intent.putExtra(Constants.SELECTED_LANGUAGE_KEY, item);
-					XmlUtils.getInstance().setLanguage(lan);
+			builder.setTitle("Information");
+			builder.setMessage("Are you sure you want to clear the order and change the language?");
+			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					OrderUtil.getInstance().getOrder().clear();
+
+					Intent intent = new Intent(BaseActivity.this, Cover.class);
 					startActivity(intent);
 					finish();
+					dialog.dismiss();
 				}
 			});
 			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -94,18 +94,7 @@ public class BaseActivity extends Activity {
 	}
 
 	protected boolean checkEnv() {
-		setTitle("Loading...");
-		String title = Utils.loadTitle();
-		String appPath = Environment.getExternalStorageDirectory().getPath();
-		MLog.d("Loaded tile:" + title);
-		if (title == null) {
-			msgbox("Loading title error", "Check " + appPath + Constants.TITLE_FILE, true);
-			return false;
-		}
-		setTitle(title);
-
-		XmlUtils.build(appPath);
-
+		setAppTitle();
 		// Set Language
 		selectedLanguage = Languages.valueOf(XmlUtils.getInstance().getLanguage()).ordinal();
 
@@ -119,6 +108,17 @@ public class BaseActivity extends Activity {
 		return true;
 	}
 
+	protected void setAppTitle() {
+		setTitle("Loading...");
+		String title = Utils.loadTitle();
+		String appPath = Environment.getExternalStorageDirectory().getPath();
+		MLog.d("Loaded tile:" + title);
+		if (title == null) {
+			msgbox("Loading title error", "Check " + appPath + Constants.TITLE_FILE, true);
+		}
+		setTitle(title);
+	}
+
 	protected void msgbox(String msg) {
 		msgbox(null, msg, false);
 	}
@@ -127,7 +127,7 @@ public class BaseActivity extends Activity {
 		msgbox(title, msg, false);
 	}
 
-	private void msgbox(String title, String msg, final boolean exitRequired) {
+	protected void msgbox(String title, String msg, final boolean exitRequired) {
 		String t = "Information";
 		if (title != null) {
 			t = title;
