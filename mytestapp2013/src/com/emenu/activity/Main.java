@@ -101,7 +101,7 @@ public class Main extends BaseActivity {
 		speHsv.setVisibility(View.VISIBLE);
 
 		LinearLayout specialListLayout = (LinearLayout) findViewById(R.id.specialListLayout);
-
+		specialListLayout.removeAllViews();
 		final int count = speList.size();
 		for (final Dish dish : speList) {
 			ImageView img = new ImageView(this, null, R.style.SpecialImage);
