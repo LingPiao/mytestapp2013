@@ -77,7 +77,7 @@ public class DishDetail extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				OrderUtil.getInstance().getOrder().add(dish, Integer.parseInt(amount.getText().toString()));
-				Toast.makeText(DishDetail.this, dish.getName() + " added to Favorite list", Toast.LENGTH_SHORT).show();
+				Toast.makeText(DishDetail.this, dish.getName() + " added to MyOrder", Toast.LENGTH_SHORT).show();
 			}
 		});
 
