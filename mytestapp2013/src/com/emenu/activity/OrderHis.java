@@ -38,6 +38,7 @@ public class OrderHis extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.order_his);
+		setTitle(Utils.getUniformTitle("Order History"));
 		listview = (ListView) findViewById(R.id.hisList);
 		listview.addHeaderView(LayoutInflater.from(this).inflate(R.layout.favorite_list_header, null));
 		tbNo = (TextView) findViewById(R.id.txtTableNo);

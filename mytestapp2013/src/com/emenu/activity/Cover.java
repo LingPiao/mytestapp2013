@@ -9,14 +9,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.emenu.R;
 import com.emenu.common.BitmapLoader;
 import com.emenu.common.Languages;
 import com.emenu.common.MLog;
+import com.emenu.common.Utils;
 import com.emenu.common.XmlUtils;
 
 public class Cover extends BaseActivity {
+	private static final String RST = " Restaurant";
 
 	private Button btnZh;
 	private Button btnSw;
@@ -36,6 +39,8 @@ public class Cover extends BaseActivity {
 		btnEn = (Button) findViewById(R.id.btnEnglish);
 
 		setAppTitle();
+		TextView rstName = (TextView) findViewById(R.id.rstName);
+		rstName.setText(Utils.loadTitle() + RST);
 	}
 
 	@Override

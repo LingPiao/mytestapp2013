@@ -7,6 +7,7 @@ public class Dish implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private long id;
+	private String dishNumber;
 	private String name;
 	private List<Long> belongsTo;
 	private String image;
@@ -97,10 +98,18 @@ public class Dish implements Serializable {
 		this.recommended = recommended;
 	}
 
+	public String getDishNumber() {
+		return dishNumber;
+	}
+
+	public void setDishNumber(String dishNumber) {
+		this.dishNumber = dishNumber;
+	}
+
 	@Override
 	public String toString() {
-		return "Dish [id=" + id + ", name=" + name + ", belongsTo=" + belongsTo + ", image=" + image + ", file=" + file + ", enabled=" + enabled + ", price="
-				+ price + ", introduction=" + introduction + ", description=" + description + "]";
+		return "Dish [id=" + id + ",dishNumber=" + dishNumber + ", name=" + name + ", belongsTo=" + belongsTo + ", image=" + image + ", file=" + file
+				+ ", enabled=" + enabled + ", price=" + price + ", introduction=" + introduction + ", description=" + description + "]";
 	}
 
 }

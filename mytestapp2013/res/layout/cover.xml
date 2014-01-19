@@ -39,4 +39,16 @@
         android:layout_marginTop="430dp"
         android:text="@string/lanEnglish" />
 
+    <TextView
+        android:id="@+id/rstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textIsSelectable="false"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="110dp"
+        android:textSize="60dp"  />
+
 </RelativeLayout>

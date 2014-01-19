@@ -15,6 +15,7 @@ import com.emenu.adapter.DishListAdapter;
 import com.emenu.common.BitmapLoader;
 import com.emenu.common.Constants;
 import com.emenu.common.MLog;
+import com.emenu.common.Utils;
 import com.emenu.models.Dish;
 
 public class DishList extends BaseActivity {
@@ -43,6 +44,9 @@ public class DishList extends BaseActivity {
 				if (selectedId > 0) {
 					selectedCategory = selectedMi.getName();
 					dishes = dao.loadDishes(selectedId);
+				} else {
+					selectedCategory = "All";
+					dishes = dao.loadDishes();
 				}
 			}
 			MLog.d("GetExtra data[selectedId=" + selectedId + "]");
@@ -50,7 +54,7 @@ public class DishList extends BaseActivity {
 			dishes = dao.loadDishes();
 		}
 
-		setTitle("Dish List/" + selectedCategory);
+		setTitle(Utils.getUniformTitle(selectedCategory));
 
 		if (dishes.size() < 1) {
 			msgbox("No Dishes found under Category[ " + selectedCategory + "]");

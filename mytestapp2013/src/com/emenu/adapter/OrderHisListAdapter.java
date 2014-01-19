@@ -42,7 +42,11 @@ public class OrderHisListAdapter extends BaseAdapter {
 	private void fillData(int position, final OrderItem oi, OrderHisViewHolder ohvh) {
 		Dish dish = oi.getDish();
 		ohvh.sn.setText(String.valueOf(position + 1));
-		ohvh.dn.setText(dish.getName());
+		if (dish.getDishNumber() != null) {
+			ohvh.dn.setText(dish.getName() + "[" + dish.getDishNumber() + "]");
+		} else {
+			ohvh.dn.setText(dish.getName());
+		}
 		ohvh.pr.setText(Utils.formatPrice(dish.getPrice()));
 		ohvh.am.setText(String.valueOf(oi.getAmount()));
 		ohvh.sm.setText(Utils.formatPrice(oi.getAmount() * dish.getPrice()));

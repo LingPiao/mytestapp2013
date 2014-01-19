@@ -13,26 +13,33 @@ import android.os.Environment;
 
 public class Utils {
 
+	private static final String TITLE_SEPARATOR = " > ";
 	private static DecimalFormat numberFormat = new DecimalFormat("####.00");
+	private static String title = null;
+
+	public static String getUniformTitle(String subTitle) {
+		return loadTitle() + TITLE_SEPARATOR + subTitle;
+	}
 
 	public static String loadTitle() {
-		String title = null;
-		String tf = Environment.getExternalStorageDirectory().getPath() + Constants.TITLE_FILE;
-		MLog.d("Load title file from:" + tf);
-		File f = new File(tf);
-		InputStream in = null;
-		BufferedReader br = null;
-		try {
-			in = new BufferedInputStream(new FileInputStream(f));
-			br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-			title = br.readLine();
-		} catch (IOException e) {
-			MLog.d("Get title from file exception:" + e.getMessage());
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
+		if (title == null) {
+			String tf = Environment.getExternalStorageDirectory().getPath() + Constants.TITLE_FILE;
+			MLog.d("Load title file from:" + tf);
+			File f = new File(tf);
+			InputStream in = null;
+			BufferedReader br = null;
+			try {
+				in = new BufferedInputStream(new FileInputStream(f));
+				br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+				title = br.readLine();
+			} catch (IOException e) {
+				MLog.d("Get title from file exception:" + e.getMessage());
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException e) {
+					}
 				}
 			}
 		}

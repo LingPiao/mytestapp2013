@@ -18,10 +18,18 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:baselineAligned="false" >
-
+        
+  		<TextView
+            android:id="@+id/dishNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="24dp" />
+  
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
             android:gravity="center"
             android:text="kr"
             android:textSize="24dp" />

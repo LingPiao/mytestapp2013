@@ -169,11 +169,12 @@ public class BaseActivity extends Activity {
 	protected com.emenu.models.MenuItem getSelectedCategory(int index) {
 		List<com.emenu.models.MenuItem> mis = dao.loadMenus();
 		com.emenu.models.MenuItem item = new com.emenu.models.MenuItem();
+		item.setId(0);// Default id 0 means that 'All' chosen
 		if (mis.size() < 1) {
 			return item;
 		}
 		int i = 0;
-		index = index - 1; // The index of All excluded
+		index = index - 1; // The index of 'All' excluded
 		for (com.emenu.models.MenuItem mi : mis) {
 			if (index == i++) {
 				return mi;

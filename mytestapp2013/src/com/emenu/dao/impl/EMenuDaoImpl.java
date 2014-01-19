@@ -86,6 +86,7 @@ public class EMenuDaoImpl implements EMenuDao {
 				} else if (eventType == XmlPullParser.START_TAG) {
 					if ("dish".equalsIgnoreCase(xpp.getName())) {
 						dish = new Dish();
+						dish.setDishNumber(xpp.getAttributeValue(null, "dishNumber"));
 						dish.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 						dish.setName(xpp.getAttributeValue(null, "name"));
 						dish.setBelongsTo(XmlUtils.getIds(xpp.getAttributeValue(null, "belongsTo")));
@@ -145,6 +146,7 @@ public class EMenuDaoImpl implements EMenuDao {
 						MLog.d(" belongsTo.contains(menuItemId) =" + r + ",menuItemId=" + menuItemId);
 						if (r) {
 							dish = new Dish();
+							dish.setDishNumber(xpp.getAttributeValue(null, "dishNumber"));
 							dish.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 							dish.setName(xpp.getAttributeValue(null, "name"));
 							dish.setBelongsTo(belongsTo);
@@ -207,6 +209,7 @@ public class EMenuDaoImpl implements EMenuDao {
 						if (recommended) {
 							dish = new Dish();
 							List<Long> belongsTo = XmlUtils.getIds(xpp.getAttributeValue(null, "belongsTo"));
+							dish.setDishNumber(xpp.getAttributeValue(null, "dishNumber"));
 							dish.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 							dish.setName(xpp.getAttributeValue(null, "name"));
 							dish.setBelongsTo(belongsTo);

@@ -59,7 +59,11 @@ public class OrderUtil {
 			sb.append(tableNumber).append(ORDER_FIELD_SEPARATOR);
 			sb.append(format.format(new Date(System.currentTimeMillis()))).append(ORDER_FIELD_SEPARATOR);
 			for (OrderItem it : order.getOrderItems()) {
-				sb.append(it.getDish().getName()).append(ITEM_FIELD_SEPARATOR).append(it.getAmount())
+				sb.append(it.getDish().getName());
+				if (it.getDish().getDishNumber() != null) {
+					sb.append("[").append(it.getDish().getDishNumber()).append("]");
+				}
+				sb.append(ITEM_FIELD_SEPARATOR).append(it.getAmount())
 						.append(ITEM_FIELD_SEPARATOR).append(it.getTotalPrice()).append(ORDER_FIELD_SEPARATOR);
 			}
 			sb.append("\n");
