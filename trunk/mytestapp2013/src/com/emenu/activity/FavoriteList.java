@@ -21,6 +21,7 @@ public class FavoriteList extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favorite_list);
+		setTitle(Utils.getUniformTitle("MyOrder"));
 
 		final FavoriteListAdapter adapter = new FavoriteListAdapter(this);
 		final ListView listview = (ListView) findViewById(R.id.favoriteList);

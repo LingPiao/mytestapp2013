@@ -48,7 +48,11 @@ public class FavoriteListAdapter extends BaseAdapter {
 	private void fillData(int position, final OrderItem oi, FavoriteViewHolder fvh) {
 		Dish dish = oi.getDish();
 		fvh.sn.setText(String.valueOf(position + 1));
-		fvh.dn.setText(dish.getName());
+		if (dish.getDishNumber() != null) {
+			fvh.dn.setText(dish.getName() + "[" + dish.getDishNumber() + "]");
+		} else {
+			fvh.dn.setText(dish.getName());
+		}
 		fvh.pr.setText(Utils.formatPrice(dish.getPrice()));
 		fvh.am.setText(String.valueOf(oi.getAmount()));
 		fvh.sm.setText(Utils.formatPrice(oi.getAmount() * dish.getPrice()));

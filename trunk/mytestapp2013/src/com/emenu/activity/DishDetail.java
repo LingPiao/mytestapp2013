@@ -50,7 +50,7 @@ public class DishDetail extends BaseActivity {
 			msgbox("Data Missing", "File[" + dishFile + "] not found!");
 			return;
 		}
-		setTitle(dish.getName());
+		setTitle(Utils.getUniformTitle(dish.getName()));
 		String url = "file://" + dishFile;
 
 		mWebView = (WebView) findViewById(R.id.dishView);
@@ -69,6 +69,11 @@ public class DishDetail extends BaseActivity {
 		// String url="http://www.quirksmode.org/html5/tests/video.html";
 
 		mWebView.loadUrl(url);
+
+		final TextView dishNo = (TextView) findViewById(R.id.dishNumber);
+		if (dish.getDishNumber() != null) {
+			dishNo.setText("NO." + dish.getDishNumber());
+		}
 
 		final TextView amount = (TextView) findViewById(R.id.amount);
 
