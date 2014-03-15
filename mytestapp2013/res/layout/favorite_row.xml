@@ -17,25 +17,28 @@
 
             <TextView
                 android:id="@+id/favorite_row_sn"
-                android:layout_width="40dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dish_list_padding" />
+                android:padding="@dimen/dish_list_padding"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/favorite_row_dishName"
-                android:layout_width="200dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dish_list_padding" />
+                android:padding="@dimen/dish_list_padding"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/favorite_row_price"
-                android:layout_width="100dp"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:padding="@dimen/dish_list_padding" />
+                android:padding="@dimen/dish_list_padding"
+                android:textSize="24sp" />
 
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="right" >
 
@@ -43,7 +46,9 @@
                     android:id="@+id/minus"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_gravity="bottom"
                     android:clickable="true"
+                    android:layout_marginBottom="8dp"
                     android:src="@drawable/minus" />
 
                 <TextView
@@ -51,12 +56,15 @@
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="@dimen/dish_list_padding" />
+                    android:padding="@dimen/dish_list_padding"
+                    android:textSize="24sp" />
 
                 <ImageView
                     android:id="@+id/add"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_gravity="bottom"
+                      android:layout_marginBottom="8dp"
                     android:clickable="true"
                     android:src="@drawable/add" />
             </LinearLayout>
@@ -66,7 +74,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:padding="@dimen/dish_list_padding" />
+                android:padding="@dimen/dish_list_padding"
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:layout_width="80dp"
@@ -77,8 +86,9 @@
                     android:id="@+id/removeItem"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="8dp"
                     android:clickable="true"
-                    android:paddingRight="8dp"
                     android:src="@drawable/delete" />
             </LinearLayout>
         </TableRow>

@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -17,6 +19,10 @@ import com.emenu.models.MenuItem;
 
 public class EMenuDaoImpl implements EMenuDao {
 
+	private static final String DISH_TAG = "dish";
+	private static final String MENU_ITEM = "MenuItem";
+	private static final String UTF_8 = "utf-8";
+
 	@Override
 	public List<MenuItem> loadMenus() {
 		List<MenuItem> l = new ArrayList<MenuItem>();
@@ -26,14 +32,14 @@ public class EMenuDaoImpl implements EMenuDao {
 			factory.setNamespaceAware(true);
 			XmlPullParser xpp = factory.newPullParser();
 			in = new FileInputStream(XmlUtils.getInstance().getMainMenuXml());
-			xpp.setInput(in, "utf-8");
+			xpp.setInput(in, UTF_8);
 			int eventType = xpp.getEventType();
 			MenuItem menu = new MenuItem();
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				if (eventType == XmlPullParser.START_DOCUMENT) {
 					// System.out.println("Start document");
 				} else if (eventType == XmlPullParser.START_TAG) {
-					if ("MenuItem".equalsIgnoreCase(xpp.getName())) {
+					if (MENU_ITEM.equalsIgnoreCase(xpp.getName())) {
 						menu = new MenuItem();
 						menu.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 						menu.setName(xpp.getAttributeValue(null, "name"));
@@ -41,7 +47,7 @@ public class EMenuDaoImpl implements EMenuDao {
 					// System.out.println("Start tag " + xpp.getName());
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// System.out.println("End tag " + xpp.getName());
-					if ("MenuItem".equalsIgnoreCase(xpp.getName()) && menu != null) {
+					if (MENU_ITEM.equalsIgnoreCase(xpp.getName()) && menu != null) {
 						l.add(menu);
 						menu = null;
 					}
@@ -77,14 +83,14 @@ public class EMenuDaoImpl implements EMenuDao {
 			factory.setNamespaceAware(true);
 			XmlPullParser xpp = factory.newPullParser();
 			in = new FileInputStream(XmlUtils.getInstance().getDishesXml());
-			xpp.setInput(in, "utf-8");
+			xpp.setInput(in, UTF_8);
 			int eventType = xpp.getEventType();
 			Dish dish = new Dish();
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				if (eventType == XmlPullParser.START_DOCUMENT) {
 					// System.out.println("Start document");
 				} else if (eventType == XmlPullParser.START_TAG) {
-					if ("dish".equalsIgnoreCase(xpp.getName())) {
+					if (DISH_TAG.equalsIgnoreCase(xpp.getName())) {
 						dish = new Dish();
 						dish.setDishNumber(xpp.getAttributeValue(null, "dishNumber"));
 						dish.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
@@ -98,7 +104,7 @@ public class EMenuDaoImpl implements EMenuDao {
 					// System.out.println("Start tag " + xpp.getName());
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// System.out.println("End tag " + xpp.getName());
-					if ("dish".equalsIgnoreCase(xpp.getName()) && dish != null) {
+					if (DISH_TAG.equalsIgnoreCase(xpp.getName()) && dish != null) {
 						if (dish.isEnabled()) {
 							l.add(dish);
 						}
@@ -120,6 +126,8 @@ public class EMenuDaoImpl implements EMenuDao {
 			}
 		}
 
+		sortDishes(l);
+
 		return l;
 	}
 
@@ -132,7 +140,7 @@ public class EMenuDaoImpl implements EMenuDao {
 			factory.setNamespaceAware(true);
 			XmlPullParser xpp = factory.newPullParser();
 			in = new FileInputStream(XmlUtils.getInstance().getDishesXml());
-			xpp.setInput(in, "utf-8");
+			xpp.setInput(in, UTF_8);
 			int eventType = xpp.getEventType();
 			Dish dish = null;
 			boolean r = false;
@@ -140,7 +148,7 @@ public class EMenuDaoImpl implements EMenuDao {
 				if (eventType == XmlPullParser.START_DOCUMENT) {
 					// System.out.println("Start document");
 				} else if (eventType == XmlPullParser.START_TAG) {
-					if ("dish".equalsIgnoreCase(xpp.getName())) {
+					if (DISH_TAG.equalsIgnoreCase(xpp.getName())) {
 						List<Long> belongsTo = XmlUtils.getIds(xpp.getAttributeValue(null, "belongsTo"));
 						r = belongsTo.contains(menuItemId);
 						MLog.d(" belongsTo.contains(menuItemId) =" + r + ",menuItemId=" + menuItemId);
@@ -161,7 +169,7 @@ public class EMenuDaoImpl implements EMenuDao {
 					// System.out.println("Start tag " + xpp.getName());
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// System.out.println("End tag " + xpp.getName());
-					if ("dish".equalsIgnoreCase(xpp.getName()) && dish != null && r) {
+					if (DISH_TAG.equalsIgnoreCase(xpp.getName()) && dish != null && r) {
 						if (dish.isEnabled()) {
 							l.add(dish);
 						}
@@ -183,7 +191,7 @@ public class EMenuDaoImpl implements EMenuDao {
 			} catch (IOException e) {
 			}
 		}
-
+		sortDishes(l);
 		return l;
 	}
 
@@ -197,14 +205,14 @@ public class EMenuDaoImpl implements EMenuDao {
 			factory.setNamespaceAware(true);
 			XmlPullParser xpp = factory.newPullParser();
 			in = new FileInputStream(XmlUtils.getInstance().getDishesXml());
-			xpp.setInput(in, "utf-8");
+			xpp.setInput(in, UTF_8);
 			int eventType = xpp.getEventType();
 			Dish dish = null;
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				if (eventType == XmlPullParser.START_DOCUMENT) {
 					// System.out.println("Start document");
 				} else if (eventType == XmlPullParser.START_TAG) {
-					if ("dish".equalsIgnoreCase(xpp.getName())) {
+					if (DISH_TAG.equalsIgnoreCase(xpp.getName())) {
 						boolean recommended = getBoolean(xpp.getAttributeValue(null, "recommended"));
 						if (recommended) {
 							dish = new Dish();
@@ -224,7 +232,7 @@ public class EMenuDaoImpl implements EMenuDao {
 					// System.out.println("Start tag " + xpp.getName());
 				} else if (eventType == XmlPullParser.END_TAG) {
 					// System.out.println("End tag " + xpp.getName());
-					if ("dish".equalsIgnoreCase(xpp.getName()) && dish != null) {
+					if (DISH_TAG.equalsIgnoreCase(xpp.getName()) && dish != null) {
 						l.add(dish);
 						dish = null;
 					}
@@ -243,7 +251,30 @@ public class EMenuDaoImpl implements EMenuDao {
 			} catch (IOException e) {
 			}
 		}
+		sortDishes(l);
 		return l;
+	}
+
+	private void sortDishes(List<Dish> dishes) {
+		Collections.sort(dishes, new Comparator<Dish>() {
+			public int compare(Dish d1, Dish d2) {
+				Integer d1no = 0;
+				if (d1.getDishNumber() != null && d1.getDishNumber().trim().length() > 0) {
+					try {
+						d1no = Integer.parseInt(d1.getDishNumber());
+					} catch (Exception e) {
+					}
+				}
+				Integer d2no = 0;
+				if (d2.getDishNumber() != null && d2.getDishNumber().trim().length() > 0) {
+					try {
+						d2no = Integer.parseInt(d2.getDishNumber());
+					} catch (Exception e) {
+					}
+				}
+				return d1no.compareTo(d2no);
+			}
+		});
 	}
 
 	private boolean getBoolean(String value) {
