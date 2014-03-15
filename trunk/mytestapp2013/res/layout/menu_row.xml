@@ -11,12 +11,11 @@
     <TextView
         android:id="@+id/menuName"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:paddingLeft="@dimen/dish_list_padding"
-        android:text="TextView"
-        android:textSize="22dp"
+        android:paddingLeft="10dp"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

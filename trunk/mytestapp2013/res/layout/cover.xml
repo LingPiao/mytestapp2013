@@ -15,9 +15,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/btnEnglish"
         android:layout_alignBottom="@+id/btnEnglish"
-        android:layout_marginLeft="14dp"
+        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@+id/btnEnglish"
-        android:text="@string/lanChinese" />
+        android:text="@string/lanChinese"
+        android:textSize="50sp" />
 
     <Button
         android:id="@+id/btnSwedish"
@@ -25,9 +26,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/btnChinese"
         android:layout_alignBottom="@+id/btnChinese"
-        android:layout_marginLeft="14dp"
+        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@+id/btnChinese"
-        android:text="@string/lanSwedish" />
+        android:text="@string/lanSwedish"
+        android:textSize="50sp" />
 
     <Button
         android:id="@+id/btnEnglish"
@@ -37,18 +39,19 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="120dp"
         android:layout_marginTop="430dp"
-        android:text="@string/lanEnglish" />
+        android:text="@string/lanEnglish"
+        android:textSize="50sp" />
 
     <TextView
         android:id="@+id/rstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:textIsSelectable="false"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="110dp"
-        android:textSize="60dp"  />
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="false"
+        android:textSize="60sp" />
 
 </RelativeLayout>

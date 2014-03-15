@@ -137,7 +137,7 @@ public class Main extends BaseActivity {
 		};
 		if (timer == null) {
 			timer = new Timer("ScrollTimer");
-			timer.scheduleAtFixedRate(task, 1000, 2000);
+			timer.scheduleAtFixedRate(task, 1000, 5000);
 		}
 	}
 

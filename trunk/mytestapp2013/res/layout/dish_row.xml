@@ -14,10 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:paddingLeft="@dimen/dish_list_padding"
-        android:text="TextView"
-        android:textSize="24dp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/desc"
@@ -25,31 +25,29 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/img"
         android:layout_alignLeft="@+id/dishName"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         android:ellipsize="end"
         android:paddingLeft="@dimen/dish_list_padding"
         android:singleLine="true"
-        android:text="TextView"
+        android:textSize="22sp"
         android:width="500dp" />
 
     <TextView
         android:id="@+id/dishName"
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:layout_alignTop="@+id/img"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/img"
         android:paddingLeft="@dimen/dish_list_padding"
-        android:textStyle="bold"
-        android:text="TextView"
-        android:textSize="22dp" />
+        android:textSize="26dp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/img"
         style="@style/DishImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignBottom="@+id/add"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
         android:layout_alignParentLeft="true"
         android:adjustViewBounds="true"
         android:background="@drawable/imgborder"
