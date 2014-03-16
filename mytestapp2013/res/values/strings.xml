@@ -14,7 +14,7 @@
     <!-- Cover -->
     <string name="lanEnglish">English</string>
     <string name="lanChinese">中文</string>
-    <string name="lanSwedish">Svensk</string>
+    <string name="lanSwedish">Norsk</string>
     <!-- End of Cover -->
 
 
@@ -48,7 +48,6 @@
     <!-- end of order list -->
 
     <string name="aboutContent">Version: V1.1.0</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_cover">Cover</string>
 
 </resources>
