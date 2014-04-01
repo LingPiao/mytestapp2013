@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/desc"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_alignBottom="@+id/img"
         android:layout_alignLeft="@+id/dishName"
         android:layout_marginBottom="12dp"
