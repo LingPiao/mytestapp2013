@@ -43,6 +43,7 @@ public class EMenuDaoImpl implements EMenuDao {
 						menu = new MenuItem();
 						menu.setId(Long.parseLong(xpp.getAttributeValue(null, "id")));
 						menu.setName(xpp.getAttributeValue(null, "name"));
+						menu.setMenuNumber(xpp.getAttributeValue(null, "menuNumber"));
 					}
 					// System.out.println("Start tag " + xpp.getName());
 				} else if (eventType == XmlPullParser.END_TAG) {
@@ -59,11 +60,14 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null) try {
-				in.close();
-			} catch (IOException e) {
-			}
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
 		}
+
+		sortMenus(l);
 
 		return l;
 	}
@@ -120,10 +124,11 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null) try {
-				in.close();
-			} catch (IOException e) {
-			}
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
 		}
 
 		sortDishes(l);
@@ -186,10 +191,11 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null) try {
-				in.close();
-			} catch (IOException e) {
-			}
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
 		}
 		sortDishes(l);
 		return l;
@@ -246,10 +252,11 @@ public class EMenuDaoImpl implements EMenuDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (in != null) try {
-				in.close();
-			} catch (IOException e) {
-			}
+			if (in != null)
+				try {
+					in.close();
+				} catch (IOException e) {
+				}
 		}
 		sortDishes(l);
 		return l;
@@ -273,6 +280,28 @@ public class EMenuDaoImpl implements EMenuDao {
 					}
 				}
 				return d1no.compareTo(d2no);
+			}
+		});
+	}
+
+	private void sortMenus(List<MenuItem> menus) {
+		Collections.sort(menus, new Comparator<MenuItem>() {
+			public int compare(MenuItem m1, MenuItem m2) {
+				Integer m1no = 0;
+				if (m1.getMenuNumber() != null && m1.getMenuNumber().trim().length() > 0) {
+					try {
+						m1no = Integer.parseInt(m1.getMenuNumber());
+					} catch (Exception e) {
+					}
+				}
+				Integer m2no = 0;
+				if (m2.getMenuNumber() != null && m2.getMenuNumber().trim().length() > 0) {
+					try {
+						m2no = Integer.parseInt(m2.getMenuNumber());
+					} catch (Exception e) {
+					}
+				}
+				return m1no.compareTo(m2no);
 			}
 		});
 	}
