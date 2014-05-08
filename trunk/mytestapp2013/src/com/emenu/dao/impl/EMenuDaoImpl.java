@@ -156,7 +156,6 @@ public class EMenuDaoImpl implements EMenuDao {
 					if (DISH_TAG.equalsIgnoreCase(xpp.getName())) {
 						List<Long> belongsTo = XmlUtils.getIds(xpp.getAttributeValue(null, "belongsTo"));
 						r = belongsTo.contains(menuItemId);
-						MLog.d(" belongsTo.contains(menuItemId) =" + r + ",menuItemId=" + menuItemId);
 						if (r) {
 							dish = new Dish();
 							dish.setDishNumber(xpp.getAttributeValue(null, "dishNumber"));
