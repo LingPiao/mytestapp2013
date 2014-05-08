@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.emenu.R;
 import com.emenu.common.BitmapLoader;
+import com.emenu.common.MLog;
 import com.emenu.common.Utils;
 import com.emenu.models.Dish;
 
@@ -27,6 +28,7 @@ public class DishListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		MLog.d("xxxxxx getView");
 		Dish d = dishes.get(position);
 		ViewHolder vh = null;
 		if (convertView == null) {

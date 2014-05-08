@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.emenu.R;
-import com.emenu.common.BitmapLoader;
 import com.emenu.common.Languages;
 import com.emenu.common.MLog;
 import com.emenu.common.Utils;
@@ -50,7 +49,8 @@ public class Cover extends BaseActivity {
 	}
 
 	private void setLan(String lan) {
-		if (handler != null && defaultChoise != null) handler.removeCallbacks(defaultChoise);
+		if (handler != null && defaultChoise != null)
+			handler.removeCallbacks(defaultChoise);
 		Intent intent = new Intent(Cover.this, Main.class);
 		String appPath = Environment.getExternalStorageDirectory().getPath();
 		XmlUtils.build(appPath);
@@ -102,9 +102,8 @@ public class Cover extends BaseActivity {
 
 	@Override
 	protected void onDestroy() {
-		MLog.d("========Destory bitmaps");
 		super.onDestroy();
-		BitmapLoader.getInstance().recycleBitmaps();
-		if (handler != null && defaultChoise != null) handler.removeCallbacks(defaultChoise);
+		if (handler != null && defaultChoise != null)
+			handler.removeCallbacks(defaultChoise);
 	}
 }

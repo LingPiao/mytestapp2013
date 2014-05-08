@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
-import com.emenu.common.BitmapLoader;
 import com.emenu.common.Constants;
 import com.emenu.common.MLog;
 import com.emenu.common.Utils;
@@ -83,8 +82,6 @@ public class DishList extends BaseActivity {
 
 	@Override
 	public void onDestroy() {
-		MLog.d("========Destory bitmaps");
 		super.onDestroy();
-		BitmapLoader.getInstance().recycleBitmaps();
 	}
 }

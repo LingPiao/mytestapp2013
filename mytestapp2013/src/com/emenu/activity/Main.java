@@ -25,7 +25,6 @@ import com.emenu.R;
 import com.emenu.adapter.CategoryListAdapter;
 import com.emenu.common.BitmapLoader;
 import com.emenu.common.Constants;
-import com.emenu.common.MLog;
 import com.emenu.models.Dish;
 
 public class Main extends BaseActivity {
@@ -90,9 +89,7 @@ public class Main extends BaseActivity {
 
 	@Override
 	public void onDestroy() {
-		MLog.d("========Destory bitmaps");
 		super.onDestroy();
-		BitmapLoader.getInstance().recycleBitmaps();
 	}
 
 	private void showSpecials(List<Dish> specials) {
@@ -156,6 +153,7 @@ public class Main extends BaseActivity {
 
 	private void quit() {
 		if (isExit) {
+			BitmapLoader.getInstance().shutdown();
 			Intent intent = new Intent(Intent.ACTION_MAIN);
 			intent.addCategory(Intent.CATEGORY_HOME);
 			startActivity(intent);
