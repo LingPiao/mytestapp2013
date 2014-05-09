@@ -5,13 +5,17 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.emenu.R;
 import com.emenu.adapter.DishListAdapter;
+import com.emenu.common.BitmapLoader;
 import com.emenu.common.Constants;
 import com.emenu.common.MLog;
 import com.emenu.common.Utils;
@@ -70,6 +74,40 @@ public class DishList extends BaseActivity {
 				Intent intent = new Intent(DishList.this, DishDetail.class);
 				intent.putExtra(Constants.DISH_KEY, dish);
 				startActivity(intent);
+			}
+		});
+
+		Handler handler = new Handler();
+		Runnable cancle = new Runnable() {
+			@Override
+			public void run() {
+				BitmapLoader.getInstance().executAllLoadingTasks();
+			}
+		};
+		handler.postDelayed(cancle, 300);
+
+		listview.setOnScrollListener(new OnScrollListener() {
+
+			// OnScrollListener.SCROLL_STATE_FLING
+			// OnScrollListener.SCROLL_STATE_IDLE
+			// OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
+
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				MLog.d("==========onScrollStateChanged,scrollState=" + scrollState);
+				if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+					int start = listview.getFirstVisiblePosition();
+					int end = listview.getLastVisiblePosition();
+					BitmapLoader.getInstance().executLoadingTasks(start, end);
+				} else {
+					MLog.d("===========Loading cacling while scrolling");
+					BitmapLoader.getInstance().setLoading(false);
+				}
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				// MLog.d("==========onScroll");
 			}
 		});
 	}

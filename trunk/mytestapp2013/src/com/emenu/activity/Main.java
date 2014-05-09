@@ -80,6 +80,7 @@ public class Main extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+
 	}
 
 	@Override

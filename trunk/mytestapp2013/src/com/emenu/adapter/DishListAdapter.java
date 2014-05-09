@@ -39,7 +39,7 @@ public class DishListAdapter extends BaseAdapter {
 			vh = (ViewHolder) convertView.getTag();
 		}
 
-		BitmapLoader.getInstance().boundImage(vh.getImgView(), d.getImage());
+		BitmapLoader.getInstance().lazyBoundingImage(position, vh.getImgView(), d.getImage());
 		vh.getNameView().setText(d.getName());
 		vh.getDescView().setText(d.getIntroduction());
 		vh.getPriceView().setText(Utils.formatPriceWithUnit(d.getPrice()));

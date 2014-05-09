@@ -1,6 +1,9 @@
 package com.emenu.common;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +16,9 @@ import com.emenu.R;
 public class BitmapLoader {
 
 	private LruCache<String, Bitmap> mMemoryCache;
+	private AtomicBoolean isLoading = new AtomicBoolean(true);
+
+	private List<BitmapWorkerTask> tasks = new ArrayList<BitmapWorkerTask>();
 
 	private BitmapLoader() {
 		// Get max available VM memory, exceeding this amount will throw an
@@ -33,6 +39,7 @@ public class BitmapLoader {
 
 			@Override
 			protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
+				super.entryRemoved(evicted, key, oldValue, newValue);
 				if (oldValue != null && !oldValue.isRecycled()) {
 					MLog.d("=========== Recycling the cached bitmap after removed ");
 					oldValue.recycle();
@@ -65,6 +72,49 @@ public class BitmapLoader {
 
 	}
 
+	public void lazyBoundingImage(int position, ImageView iv, String file) {
+
+		final String imageKey = file;
+
+		final Bitmap bitmap = getBitmapFromMemCache(imageKey);
+		if (bitmap != null) {
+			iv.setImageBitmap(bitmap);
+		} else {
+			iv.setImageResource(R.drawable.default_images);
+			tasks.add(new BitmapWorkerTask(position, iv, file));
+		}
+
+	}
+
+	public void executAllLoadingTasks() {
+		MLog.d("===========Loading all, size=" + tasks.size());
+		isLoading.set(true);
+		for (BitmapWorkerTask t : tasks) {
+			if (!isLoading.get()) {
+				MLog.d("===========Loading cancled");
+				break;
+			}
+			t.execute(t.getImg());
+		}
+		if (isLoading.get())
+			tasks.clear();
+	}
+
+	public void executLoadingTasks(int start, int end) {
+		isLoading.set(true);
+		for (BitmapWorkerTask t : tasks) {
+			if (!isLoading.get()) {
+				MLog.d("===========Loading cancled");
+				break;
+			}
+			if (t.getPosition() >= start && t.getPosition() <= end) {
+				t.execute(t.getImg());
+			}
+		}
+		if (isLoading.get())
+			tasks.clear();
+	}
+
 	public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
 		if (getBitmapFromMemCache(key) == null) {
 			mMemoryCache.put(key, bitmap);
@@ -79,11 +129,31 @@ public class BitmapLoader {
 		mMemoryCache.evictAll();
 	}
 
+	public void setLoading(boolean isLoading) {
+		this.isLoading.set(isLoading);
+	}
+
 	class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 		private ImageView iv;
+		private int position;
+		private String img;
+
+		public int getPosition() {
+			return position;
+		}
+
+		public String getImg() {
+			return img;
+		}
 
 		private BitmapWorkerTask(ImageView iv) {
 			this.iv = iv;
+		}
+
+		private BitmapWorkerTask(int position, ImageView iv, String img) {
+			this.position = position;
+			this.iv = iv;
+			this.img = img;
 		}
 
 		// Decode image in background.
