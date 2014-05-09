@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -161,6 +162,15 @@ public class Main extends BaseActivity {
 		} else {
 			isExit = true;
 			Toast.makeText(this, "Press again to Exit", Toast.LENGTH_SHORT).show();
+			Handler handler = new Handler();
+			Runnable cancle = new Runnable() {
+				@Override
+				public void run() {
+					isExit = false;
+				}
+			};
+			// Reset the exit flag after 1 second
+			handler.postDelayed(cancle, 1000);
 		}
 	}
 }
