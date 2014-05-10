@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.emenu.R;
 import com.emenu.adapter.CategoryListAdapter;
@@ -36,7 +36,8 @@ public class Main extends BaseActivity {
 	private Timer timer = null;
 
 	boolean isDataReady = false;
-	boolean isExit = false;
+
+	// boolean isExit = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +147,7 @@ public class Main extends BaseActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			quit();
+			// quit();
 			return false;
 		} else {
 			return super.onKeyDown(keyCode, event);
@@ -154,24 +155,47 @@ public class Main extends BaseActivity {
 	}
 
 	private void quit() {
-		if (isExit) {
-			BitmapLoader.getInstance().shutdown();
-			Intent intent = new Intent(Intent.ACTION_MAIN);
-			intent.addCategory(Intent.CATEGORY_HOME);
-			startActivity(intent);
-			System.exit(0);
-		} else {
-			isExit = true;
-			Toast.makeText(this, "Press again to Exit", Toast.LENGTH_SHORT).show();
-			Handler handler = new Handler();
-			Runnable cancle = new Runnable() {
-				@Override
-				public void run() {
-					isExit = false;
-				}
-			};
-			// Reset the exit flag after 1 second
-			handler.postDelayed(cancle, 1000);
-		}
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Information");
+		builder.setMessage("Are you sure you want to exit?");
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				BitmapLoader.getInstance().shutdown();
+				dialog.dismiss();
+				Intent intent = new Intent(Intent.ACTION_MAIN);
+				intent.addCategory(Intent.CATEGORY_HOME);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				android.os.Process.killProcess(android.os.Process.myPid());
+				System.exit(0);
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		builder.create().show();
+
+		// if (isExit) {
+		// BitmapLoader.getInstance().shutdown();
+		// Intent intent = new Intent(Intent.ACTION_MAIN);
+		// intent.addCategory(Intent.CATEGORY_HOME);
+		// startActivity(intent);
+		// System.exit(0);
+		// } else {
+		// isExit = true;
+		// Toast.makeText(this, "Press again to Exit",
+		// Toast.LENGTH_SHORT).show();
+		// Handler handler = new Handler();
+		// Runnable cancle = new Runnable() {
+		// @Override
+		// public void run() {
+		// isExit = false;
+		// }
+		// };
+		// // Reset the exit flag after 1 second
+		// handler.postDelayed(cancle, 200);
+		// }
 	}
 }
