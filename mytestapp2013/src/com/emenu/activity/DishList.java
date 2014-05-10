@@ -84,7 +84,7 @@ public class DishList extends BaseActivity {
 				BitmapLoader.getInstance().executAllLoadingTasks();
 			}
 		};
-		handler.postDelayed(cancle, 300);
+		handler.postDelayed(cancle, 100);
 
 		listview.setOnScrollListener(new OnScrollListener() {
 
