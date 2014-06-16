@@ -116,7 +116,7 @@ public class BitmapLoader {
 	}
 
 	public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-		if (getBitmapFromMemCache(key) == null) {
+		if (bitmap != null && getBitmapFromMemCache(key) == null) {
 			mMemoryCache.put(key, bitmap);
 		}
 	}
@@ -161,6 +161,8 @@ public class BitmapLoader {
 		protected Bitmap doInBackground(String... params) {
 			Bitmap bm = null;
 			String file = params[0];
+			if (file == null || file.trim().length() < 1)
+				return null;
 			int sample = 2;
 			File imgf = new File(file);
 			if (imgf.exists()) {
@@ -179,6 +181,9 @@ public class BitmapLoader {
 				BitmapFactory.Options opt = new BitmapFactory.Options();
 				opt.inSampleSize = sample;
 				bm = BitmapFactory.decodeFile(imgf.getAbsolutePath(), opt);
+				if (bm == null) {
+					return null;
+				}
 				addBitmapToMemoryCache(file, bm);
 			}
 			return bm;
