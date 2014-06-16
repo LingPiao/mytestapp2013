@@ -52,7 +52,7 @@ public class BaseActivity extends Activity {
 					MLog.d("PutExtra data[selectedId=" + selectedMi.getId() + "]");
 					intent.putExtra(Constants.SELECTED_MENU_ITEM_KEY, selectedMi);
 					startActivity(intent);
-					finish();
+					//finish();
 				}
 			});
 			builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -72,10 +72,9 @@ public class BaseActivity extends Activity {
 			builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					OrderUtil.getInstance().getOrder().clear();
-
 					Intent intent = new Intent(BaseActivity.this, Cover.class);
 					startActivity(intent);
-					finish();
+					//finish();
 					dialog.dismiss();
 				}
 			});

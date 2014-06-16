@@ -60,10 +60,10 @@ public class DishDetail extends BaseActivity {
 		// mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setPluginState(PluginState.OFF);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
-		mWebView.getSettings().setUseWideViewPort(false);
+		mWebView.getSettings().setSupportZoom(true);
+		mWebView.getSettings().setUseWideViewPort(true);
 		// mWebView.getSettings().setDomStorageEnabled(true);
 		mWebView.getSettings().setAllowFileAccess(true);
-		// mWebView.getSettings().setSupportZoom(false);
 		// mWebView.setInitialScale(0);
 
 		// String url="http://www.quirksmode.org/html5/tests/video.html";

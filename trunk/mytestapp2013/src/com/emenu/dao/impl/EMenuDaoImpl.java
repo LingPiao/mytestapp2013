@@ -267,14 +267,14 @@ public class EMenuDaoImpl implements EMenuDao {
 				Integer d1no = 0;
 				if (d1.getDishNumber() != null && d1.getDishNumber().trim().length() > 0) {
 					try {
-						d1no = Integer.parseInt(d1.getDishNumber());
+						d1no = Integer.parseInt(d1.getDishNumber().trim());
 					} catch (Exception e) {
 					}
 				}
 				Integer d2no = 0;
 				if (d2.getDishNumber() != null && d2.getDishNumber().trim().length() > 0) {
 					try {
-						d2no = Integer.parseInt(d2.getDishNumber());
+						d2no = Integer.parseInt(d2.getDishNumber().trim());
 					} catch (Exception e) {
 					}
 				}
@@ -289,14 +289,14 @@ public class EMenuDaoImpl implements EMenuDao {
 				Integer m1no = 0;
 				if (m1.getMenuNumber() != null && m1.getMenuNumber().trim().length() > 0) {
 					try {
-						m1no = Integer.parseInt(m1.getMenuNumber());
+						m1no = Integer.parseInt(m1.getMenuNumber().trim());
 					} catch (Exception e) {
 					}
 				}
 				Integer m2no = 0;
 				if (m2.getMenuNumber() != null && m2.getMenuNumber().trim().length() > 0) {
 					try {
-						m2no = Integer.parseInt(m2.getMenuNumber());
+						m2no = Integer.parseInt(m2.getMenuNumber().trim());
 					} catch (Exception e) {
 					}
 				}
